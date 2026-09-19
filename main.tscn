@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://co17loubfipfw"]
+
+[ext_resource type="PackedScene" uid="uid://bpvpubd2f1r2f" path="res://Scene/GameHUD.tscn" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://dahwknh4gfjik" path="res://Assets/Chess_pieces/32x32 Chess Detailed (SpriteSheet).png" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://r6rgb30o55dy" path="res://board.tscn" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://d3pqmnb6y56bf" path="res://Assets/Dice/Dice 1-6 Light (1).png" id="2_lquwl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(34.181953, 2.1556206, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(0.7394943, 34.056343, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_272bh"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(98.85051, 68.97979, 36.34041, 33.33757)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efxa6"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(68.086754, 2.0324402, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dg77c"]
+atlas = ExtResource("2_1bvp3")
+region = Rect2(103.99321, 36.922672, 32, 32)
+
+[node name="Main" type="Node2D" unique_id=1310231944]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1449265103]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=608471934]
+
+[node name="GameHUD" parent="CanvasLayer" unique_id=1233272571 instance=ExtResource("1_0xm2m")]
+
+[node name="Player1Panel" type="Panel" parent="CanvasLayer/GameHUD" unique_id=1232079476]
+layout_mode = 0
+offset_left = 233.0
+offset_top = -95.0
+offset_right = 273.0
+offset_bottom = -55.0
+
+[node name="PlayerName" type="Label" parent="CanvasLayer/GameHUD/Player1Panel" unique_id=1160582623]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Plaeyer 1"
+
+[node name="TurnIndicator" type="Label" parent="CanvasLayer/GameHUD/Player1Panel" unique_id=262986641]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 65.0
+offset_bottom = 40.0
+text = "======="
+
+[node name="Timer" type="ProgressBar" parent="CanvasLayer/GameHUD/Player1Panel" unique_id=2045788478]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="Player2Panel" type="Panel" parent="CanvasLayer/GameHUD" unique_id=1780605539]
+layout_mode = 0
+offset_left = 235.0
+offset_top = 34.0
+offset_right = 275.0
+offset_bottom = 74.0
+
+[node name="PlayerName" type="Label" parent="CanvasLayer/GameHUD/Player2Panel" unique_id=1294464424]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Player 2"
+
+[node name="TurnIndicator" type="Label" parent="CanvasLayer/GameHUD/Player2Panel" unique_id=1707980419]
+layout_mode = 0
+offset_top = 19.0
+offset_right = 65.0
+offset_bottom = 42.0
+text = "======="
+
+[node name="Timer" type="ProgressBar" parent="CanvasLayer/GameHUD/Player2Panel" unique_id=869597584]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="DiceDisplay" type="TextureRect" parent="CanvasLayer/GameHUD" unique_id=208579977]
+layout_mode = 0
+offset_left = 234.0
+offset_top = -22.0
+offset_right = 274.0
+offset_bottom = 18.0
+texture = ExtResource("2_lquwl")
+
+[node name="ReserveTop" type="HBoxContainer" parent="CanvasLayer/GameHUD" unique_id=1451808195]
+layout_mode = 0
+offset_left = -18.0
+offset_top = -190.0
+offset_right = 22.0
+offset_bottom = -150.0
+
+[node name="Piece1" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveTop" unique_id=155367686]
+layout_mode = 2
+texture = SubResource("AtlasTexture_1bvp3")
+
+[node name="Piece2" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveTop" unique_id=1476150043]
+layout_mode = 2
+texture = SubResource("AtlasTexture_7mycd")
+
+[node name="Piece3" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveTop" unique_id=1960446118]
+layout_mode = 2
+texture = SubResource("AtlasTexture_272bh")
+
+[node name="ReserveBottom" type="HBoxContainer" parent="CanvasLayer/GameHUD" unique_id=649512860]
+layout_mode = 0
+offset_left = -18.0
+offset_top = 152.0
+offset_right = 22.0
+offset_bottom = 192.0
+
+[node name="Piece1" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveBottom" unique_id=2059440869]
+layout_mode = 2
+texture = SubResource("AtlasTexture_5vw27")
+
+[node name="Piece2" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveBottom" unique_id=457864212]
+layout_mode = 2
+texture = SubResource("AtlasTexture_efxa6")
+
+[node name="Piece3" type="TextureRect" parent="CanvasLayer/GameHUD/ReserveBottom" unique_id=407152845]
+layout_mode = 2
+texture = SubResource("AtlasTexture_dg77c")
+
+[node name="Board" parent="." unique_id=1378997031 instance=ExtResource("2_h2yge")]
