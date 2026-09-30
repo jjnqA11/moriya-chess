@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://byc6iocqcoscx"]
+
+[ext_resource type="Texture2D" uid="uid://c4w5lbsspgdwn" path="res://Assets/Chess/32x32 Chess Detailed (SpriteSheet).png" id="1_mu1hi"]
+[ext_resource type="Script" uid="uid://bx2avgqdwee8h" path="res://Scripts/piece.gd" id="1_vac2f"]
+[ext_resource type="Shader" uid="uid://cc03j0p0aga4k" path="res://Shaders/piece_highlight.gdshader" id="2_wuhod"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lihs"]
+shader = ExtResource("2_wuhod")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w01mf"]
+resource_local_to_scene = true
+size = Vector2(34, 34)
+
+[node name="Pieces" type="Node2D" unique_id=1514898972]
+script = ExtResource("1_vac2f")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=202330811]
+material = SubResource("ShaderMaterial_7lihs")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_mu1hi")
+region_enabled = true
+region_rect = Rect2(40.00003, 33.4, 21.600006, 30.599998)
+
+[node name="Highlight" type="Sprite2D" parent="." unique_id=1066819953]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2018442360]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1675677985]
+shape = SubResource("RectangleShape2D_w01mf")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://be7mettps8ssn"]
+
+[ext_resource type="Script" uid="uid://drhufxbrgfoc2" path="res://Scripts/dice.gd" id="1_wpqjs"]
+
+[node name="Dice" type="Node2D" unique_id=1742857914]
+script = ExtResource("1_wpqjs")
