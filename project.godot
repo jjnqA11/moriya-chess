@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="moriyachess2.1"
-run/main_scene="uid://bwad8maleijft"
+config/name="moriyachess2.2"
+run/main_scene="uid://b2o3mfyp37kb2"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

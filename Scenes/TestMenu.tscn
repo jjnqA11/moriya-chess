@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://b2o3mfyp37kb2"]
+
+[ext_resource type="Script" uid="uid://cf4l3sj40ypf1" path="res://Scenes Scripts/testMenu.gd" id="1_dkegk"]
+
+[node name="TestMenu" type="Control" unique_id=1843199306]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dkegk")
+
+[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=1063454300]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -46.5
+offset_right = 85.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MenuContainer" unique_id=1596113058]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Mệnh Cờ - Test"
+horizontal_alignment = 1
+
+[node name="PvEButton" type="Button" parent="MenuContainer" unique_id=237042753]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🤖 NGƯỜI vs MÁY"
+
+[node name="PvPButton" type="Button" parent="MenuContainer" unique_id=31689290]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "👥 NGƯỜI vs NGƯỜI"
+
+[node name="TutorialButton" type="Button" parent="MenuContainer" unique_id=822304398]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "HƯỚNG DẪN"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer" unique_id=2001945673]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "CÀI ĐẶT"
+
+[node name="ExitButton" type="Button" parent="MenuContainer" unique_id=1853571702]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "THOÁT"
+
+[connection signal="pressed" from="MenuContainer/PvEButton" to="." method="_on_pv_e_button_pressed"]
+[connection signal="pressed" from="MenuContainer/PvPButton" to="." method="_on_pv_p_button_pressed"]
+[connection signal="pressed" from="MenuContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

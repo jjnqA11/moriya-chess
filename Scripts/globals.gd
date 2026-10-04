@@ -29,7 +29,17 @@ enum PLAYER_2_TYPE {
 	AI
 }
 
+var player_2_type = PLAYER_2_TYPE.AI
 
+enum AI_DIFFICULTY {
+	EASY,
+	MEDIUM,
+	HARD,
+	INSANE,
+	EXTREME
+}
+
+var ai_difficulty = AI_DIFFICULTY.EASY
 # =========================
 # COLORS
 # =========================

@@ -2,7 +2,8 @@ extends Node2D
 
 @onready var sprite = $Sprite2D
 @onready var area = $Area2D
-
+@onready var highlight: Sprite2D = $Highlight
+	
 const SPRITE_SIZE = 34
 const CELL_SIZE = 60
 
@@ -28,23 +29,32 @@ func _on_area_input_event(
 	event,
 	_shape_idx
 ):
+	if game_handle == null:
+		return
+
 	if game_handle.game_ended:
 		return
+
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+
 			if color != game_handle.current_player:
 				print("Chưa tới lượt quân này!")
 				return
-				
+
 			if not board_handle.can_select_piece(self):
 				print("Quân này hiện không có nước đi hợp lệ!")
 				return
+
 			set_highlighted(false)
 			board_handle.select_piece(self)
-			
-			var scan_result = scan_piece(game_handle.dice.remaining_points)
+
+			var scan_result = scan_piece(
+				game_handle.dice.remaining_points
+			)
+
 			print("SCAN RESULT: ", scan_result)
-			
+
 			get_viewport().set_input_as_handled()
 
 func init_piece(
@@ -71,7 +81,39 @@ func init_piece(
 
 func update_sprite():
 	if sprite:
-		var region_pos = Globals.SPRITE_MAPPING[color][piece_type]
+		var sprite_color = color
+		var visual_color = Color.WHITE
+
+		# Bot trong PvE
+		if color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+
+			match Globals.ai_difficulty:
+				Globals.AI_DIFFICULTY.EASY:
+					# Easy giữ nguyên quân đen như PvP
+					sprite_color = Globals.COLORS.BLACK
+					visual_color = Color.WHITE
+
+				Globals.AI_DIFFICULTY.MEDIUM:
+					# Tím
+					sprite_color = Globals.COLORS.WHITE
+					visual_color = Color(0.65, 0.2, 0.9)
+
+				Globals.AI_DIFFICULTY.HARD:
+					# Đỏ
+					sprite_color = Globals.COLORS.WHITE
+					visual_color = Color(0.588, 0.0, 0.065, 1.0)
+
+				Globals.AI_DIFFICULTY.INSANE:
+					# Vàng
+					sprite_color = Globals.COLORS.WHITE
+					visual_color = Color(1.0, 0.8, 0.1)
+
+				Globals.AI_DIFFICULTY.EXTREME:
+					# Đỏ sẫm
+					sprite_color = Globals.COLORS.WHITE
+					visual_color = Color(0.45, 0.03, 0.03)
+
+		var region_pos = Globals.SPRITE_MAPPING[sprite_color][piece_type]
 
 		sprite.region_rect = Rect2(
 			region_pos.x * SPRITE_SIZE,
@@ -80,6 +122,8 @@ func update_sprite():
 			SPRITE_SIZE
 		)
 
+		sprite.modulate = visual_color
+
 func set_selected(value: bool):
 	selected = value
 	if selected:
@@ -87,23 +131,61 @@ func set_selected(value: bool):
 	else:
 		sprite.modulate = Color.WHITE
 		
-func set_highlighted(value):
-	highlighted = value
-	#sprite.modulate = Color.YELLOW if highlighted else Color.WHITE
-	if selected:
-		sprite.modulate = Color.RED
-	else:
-		sprite.modulate = Color.YELLOW if highlighted else Color.WHITE
-	
 func move_to(target: Vector2):
 	board_position = target
 
 	position = Vector2(
 		board_position.x * CELL_SIZE + CELL_SIZE / 2,
 		board_position.y * CELL_SIZE + CELL_SIZE / 2
-		)
+	)
 
 	print("Quân đã di chuyển tới: ", board_position)
+
+func set_highlighted(value):
+	highlighted = value
+
+	if selected:
+		sprite.modulate = Color.RED
+		highlight.visible = false
+		return
+
+	# Không highlight
+	if not highlighted:
+		highlight.visible = false
+		update_sprite()
+		return
+
+	# Có highlight
+	if color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+		update_sprite()
+
+		highlight.visible = true
+
+		match Globals.ai_difficulty:
+			Globals.AI_DIFFICULTY.EASY:
+				# Vàng + tím
+				highlight.modulate = Color(0.6, 0.2, 0.8, 0.8)
+
+			Globals.AI_DIFFICULTY.MEDIUM:
+				# Vàng + tím
+				highlight.modulate = Color(0.6, 0.2, 0.8, 0.8)
+
+			Globals.AI_DIFFICULTY.HARD:
+				# Vàng + đỏ
+				highlight.modulate = Color(0.9, 0.15, 0.15, 0.8)
+
+			Globals.AI_DIFFICULTY.INSANE:
+				# Vàng + vàng đậm
+				highlight.modulate = Color(0.7, 0.45, 0.05, 0.8)
+
+			Globals.AI_DIFFICULTY.EXTREME:
+				# Vàng + đỏ sẫm
+				highlight.modulate = Color(0.45, 0.03, 0.03, 0.8)
+
+	else:
+		# Người chơi
+		highlight.visible = true
+		highlight.modulate = Color.WHITE
 
 func is_valid_move(target: Vector2) -> bool:
 	var move_distance = max(

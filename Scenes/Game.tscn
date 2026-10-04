@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://px3a6uu0q1qo" path="res://Scripts/notification_layer.gd" id="5_b2bpf"]
 [ext_resource type="Script" uid="uid://dskedjsvx7rgf" path="res://Scripts/ui.gd" id="5_fgofq"]
 [ext_resource type="Script" uid="uid://cf0m21jk8bvfh" path="res://Scripts/bot.gd" id="8_2irst"]
+[ext_resource type="Script" uid="uid://cn14hubfjndpb" path="res://Scripts/UI Menu Scripts/pause_menu.gd" id="8_bf53h"]
+[ext_resource type="Shader" uid="uid://b8bq8c6boj2md" path="res://Shaders/blurBG.gdshader" id="9_71axn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w01mf"]
 bg_color = Color(0.6784314, 0.6784314, 0, 0)
@@ -26,7 +28,127 @@ colors = PackedColorArray(0.90588236, 0.29803923, 0.23529412, 1, 0.94509804, 0.8
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_71axn"]
 gradient = SubResource("Gradient_7lihs")
 width = 300
-height = 20
+height = 23
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w01mf"]
+shader = ExtResource("9_71axn")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8moh"]
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 25.0
+content_margin_bottom = 25.0
+bg_color = Color(3.3210217e-06, 0.7253713, 0.24103516, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.44997227, 1, 0.1407777, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_71axn"]
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 25.0
+content_margin_bottom = 25.0
+bg_color = Color(1, 0.3575964, 0.0922207, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.80171764, 0.7508567, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="Animation" id="Animation_71axn"]
+resource_name = "GameOverAppear"
+length = 0.39999999999999997
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverContent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverContent:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.85, 0.85), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_dahhg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverContent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverContent:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.85, 0.85)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3so38"]
+_data = {
+&"GameOverAppear": SubResource("Animation_71axn"),
+&"RESET": SubResource("Animation_dahhg")
+}
 
 [node name="Game" type="Node2D" unique_id=1211636044]
 script = ExtResource("1_gl6un")
@@ -50,9 +172,14 @@ script = ExtResource("4_7lihs")
 
 [node name="UI" type="Control" parent="." unique_id=1102523732]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("5_fgofq")
 
 [node name="BlackReserve" type="HBoxContainer" parent="UI" unique_id=385964383]
@@ -61,13 +188,14 @@ offset_left = 140.0
 offset_top = 15.0
 offset_right = 320.0
 offset_bottom = 65.0
+mouse_filter = 0
 
 [node name="Player1" type="VBoxContainer" parent="UI" unique_id=975356603]
 layout_mode = 0
 offset_left = 700.0
 offset_top = 450.0
 offset_right = 1050.0
-offset_bottom = 566.0
+offset_bottom = 589.0
 
 [node name="PlayerInfo" type="HBoxContainer" parent="UI/Player1" unique_id=1505654457]
 layout_mode = 2
@@ -85,12 +213,74 @@ layout_mode = 2
 [node name="StatusNotification" type="Label" parent="UI/Player1" unique_id=1724540165]
 layout_mode = 2
 
-[node name="TimeBar" type="TextureProgressBar" parent="UI/Player1" unique_id=816713462]
+[node name="TimeStatusLabel" type="Label" parent="UI/Player1" unique_id=368079600]
 layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeRow" type="BoxContainer" parent="UI/Player1" unique_id=206682106]
+layout_mode = 2
+
+[node name="TimeBarContainer" type="Control" parent="UI/Player1/TimeRow" unique_id=1524279926]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeBar" type="TextureProgressBar" parent="UI/Player1/TimeRow/TimeBarContainer" unique_id=816713462]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
 max_value = 40.0
 step = 0.01
 value = 40.0
 texture_progress = SubResource("GradientTexture2D_71axn")
+
+[node name="PhaseDivider" type="ColorRect" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=178608210]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_left = 73.0
+offset_right = 74.0
+mouse_filter = 2
+
+[node name="RollLabel" type="Label" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=368814846]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 68.0
+offset_bottom = 21.0
+text = "🎲 "
+
+[node name="MovementLabel" type="Label" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=1109219651]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = -23.0
+offset_right = 242.0
+text = "🚶 DI CHUYỂN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeBackground" type="ColorRect" parent="UI/Player1/TimeRow/TimeBarContainer" unique_id=712471169]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -5.0
+mouse_filter = 2
+color = Color(0.06136909, 0.0613691, 0.06136909, 1)
+
+[node name="TimeLabel" type="Label" parent="UI/Player1/TimeRow" unique_id=429186328]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "40s"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="UI/Player1" unique_id=259563055]
 layout_mode = 2
@@ -104,12 +294,21 @@ text = "Tung xúc xắc"
 layout_mode = 2
 text = "Bỏ qua"
 
+[node name="Player1Layer" type="Panel" parent="UI" unique_id=1534050416]
+z_index = -10
+layout_mode = 0
+offset_left = 660.0
+offset_top = 55.0
+offset_right = 1110.0
+offset_bottom = 235.0
+mouse_filter = 2
+
 [node name="Player2" type="VBoxContainer" parent="UI" unique_id=27675358]
 layout_mode = 0
 offset_left = 700.0
 offset_top = 80.0
 offset_right = 1050.0
-offset_bottom = 196.0
+offset_bottom = 219.0
 
 [node name="PlayerInfo" type="HBoxContainer" parent="UI/Player2" unique_id=2102308068]
 layout_mode = 2
@@ -127,12 +326,73 @@ layout_mode = 2
 [node name="StatusNotification" type="Label" parent="UI/Player2" unique_id=1089249881]
 layout_mode = 2
 
-[node name="TimeBar" type="TextureProgressBar" parent="UI/Player2" unique_id=1458061408]
+[node name="TimeStatusLabel" type="Label" parent="UI/Player2" unique_id=338325626]
 layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeRow" type="BoxContainer" parent="UI/Player2" unique_id=1173537785]
+layout_mode = 2
+
+[node name="TimeBarContainer" type="Control" parent="UI/Player2/TimeRow" unique_id=1042862992]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeBar" type="TextureProgressBar" parent="UI/Player2/TimeRow/TimeBarContainer" unique_id=1458061408]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
 max_value = 40.0
 step = 0.01
 value = 40.0
 texture_progress = SubResource("GradientTexture2D_71axn")
+
+[node name="PhaseDivider" type="ColorRect" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=1934099994]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_left = 73.0
+offset_right = 74.0
+mouse_filter = 2
+
+[node name="RollLabel" type="Label" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=766846403]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 68.0
+offset_bottom = 21.0
+text = "🎲 "
+
+[node name="MovementLabel" type="Label" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=541134844]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = -23.0
+offset_right = 242.0
+text = "🚶 DI CHUYỂN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeBackground" type="ColorRect" parent="UI/Player2/TimeRow/TimeBarContainer" unique_id=1617601393]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -5.0
+color = Color(0, 0, 0, 1)
+
+[node name="TimeLabel" type="Label" parent="UI/Player2/TimeRow" unique_id=944326476]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "40s"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="UI/Player2" unique_id=1436342520]
 layout_mode = 2
@@ -146,12 +406,21 @@ text = "Tung xúc xắc"
 layout_mode = 2
 text = "Bỏ qua"
 
+[node name="Player2Layer" type="Panel" parent="UI" unique_id=582827608]
+z_index = -10
+layout_mode = 0
+offset_left = 660.0
+offset_top = 430.0
+offset_right = 1110.0
+offset_bottom = 610.0
+mouse_filter = 2
+
 [node name="DiceResult" type="TextureRect" parent="UI" unique_id=1388408821]
 layout_mode = 0
 offset_left = 700.0
-offset_top = 220.0
+offset_top = 250.0
 offset_right = 860.0
-offset_bottom = 380.0
+offset_bottom = 410.0
 texture = ExtResource("4_kldst")
 
 [node name="NotificationLayer" type="Control" parent="UI" unique_id=1427546844]
@@ -179,6 +448,7 @@ offset_left = 140.0
 offset_top = 585.0
 offset_right = 322.0
 offset_bottom = 635.0
+mouse_filter = 0
 
 [node name="ReserveHighlightCell" type="Panel" parent="UI" unique_id=201240164]
 visible = false
@@ -187,6 +457,473 @@ offset_right = 60.0
 offset_bottom = 60.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_w01mf")
+
+[node name="PauseButton" type="Button" parent="UI" unique_id=758094510]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "⏸"
+
+[node name="PauseMenu" type="Control" parent="UI" unique_id=1438334485]
+visible = false
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_bf53h")
+
+[node name="Overlay" type="ColorRect" parent="UI/PauseMenu" unique_id=2135635195]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.07846785, 0.07846785, 0.07846785, 0.4)
+
+[node name="PausePanel" type="Panel" parent="UI/PauseMenu" unique_id=1395086554]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -175.0
+offset_right = 150.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/PauseMenu/PausePanel" unique_id=1763292192]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseTitle" type="Label" parent="UI/PauseMenu/PausePanel/MainContainer" unique_id=1077945465]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "TẠM DỪNG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="UI/PauseMenu/PausePanel/MainContainer" unique_id=912661097]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="ResumeButton" type="Button" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer" unique_id=575472989]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Tiếp tục "
+
+[node name="RestartButton" type="Button" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer" unique_id=324024487]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = " Chơi lại    "
+
+[node name="MenuButton" type="Button" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer" unique_id=630536557]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Về Menu"
+
+[node name="RestartBlur" type="ColorRect" parent="UI/PauseMenu" unique_id=528621440]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_w01mf")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RestartConfirm" type="Panel" parent="UI/PauseMenu" unique_id=1196862718]
+visible = false
+custom_minimum_size = Vector2(300, 180)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurBackground" type="ColorRect" parent="UI/PauseMenu/RestartConfirm" unique_id=1522627645]
+material = SubResource("ShaderMaterial_w01mf")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/PauseMenu/RestartConfirm" unique_id=342582018]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="ConfirmLabel" type="Label" parent="UI/PauseMenu/RestartConfirm/MainContainer" unique_id=57813268]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Chơi lại?"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="UI/PauseMenu/RestartConfirm/MainContainer" unique_id=2048125238]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ConfirmRestartButton" type="Button" parent="UI/PauseMenu/RestartConfirm/MainContainer/ButtonContainer" unique_id=1438102703]
+custom_minimum_size = Vector2(120, 45)
+layout_mode = 2
+text = "OK"
+
+[node name="CancelRestartButton" type="Button" parent="UI/PauseMenu/RestartConfirm/MainContainer/ButtonContainer" unique_id=1636158777]
+custom_minimum_size = Vector2(120, 45)
+layout_mode = 2
+text = "KO"
+
+[node name="MenuConfirm" type="Panel" parent="UI/PauseMenu" unique_id=567788483]
+visible = false
+custom_minimum_size = Vector2(300, 180)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/PauseMenu/MenuConfirm" unique_id=709647461]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.5
+offset_top = -45.5
+offset_right = 127.5
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmLabel" type="Label" parent="UI/PauseMenu/MenuConfirm/MainContainer" unique_id=619370477]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Về menu?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="UI/PauseMenu/MenuConfirm/MainContainer" unique_id=850134916]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="ConfirmMenuButton" type="Button" parent="UI/PauseMenu/MenuConfirm/MainContainer/ButtonContainer" unique_id=1649397193]
+custom_minimum_size = Vector2(120, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OK"
+
+[node name="CancelMenuButton" type="Button" parent="UI/PauseMenu/MenuConfirm/MainContainer/ButtonContainer" unique_id=1036903654]
+custom_minimum_size = Vector2(120, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hủy"
+
+[node name="GameOver" type="Control" parent="UI" unique_id=1329385263]
+process_mode = 3
+visible = false
+z_index = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Overlay" type="ColorRect" parent="UI/GameOver" unique_id=1755832810]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.07846785, 0.07846785, 0.07846785, 0.4)
+
+[node name="GameOverContent" type="Control" parent="UI/GameOver" unique_id=388734810]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(420, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(210, 150)
+mouse_filter = 2
+
+[node name="PvPWhiteWin" type="Panel" parent="UI/GameOver/GameOverContent" unique_id=555106172]
+visible = false
+z_index = 10
+custom_minimum_size = Vector2(420, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(210, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_h8moh")
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvPWhiteWin" unique_id=1599726497]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="GameOverTitle" type="Label" parent="UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer" unique_id=1497284739]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 36
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer" unique_id=1704269644]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 28
+text = "Trắng THẮNG!!!"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer" unique_id=1512554749]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer/ButtonContainer" unique_id=1924730899]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Chơi lại"
+
+[node name="BakcToMenuButton" type="Button" parent="UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer/ButtonContainer" unique_id=1524119120]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Menu"
+
+[node name="PvPBlackWin" type="Panel" parent="UI/GameOver/GameOverContent" unique_id=1464598086]
+visible = false
+z_index = 10
+custom_minimum_size = Vector2(420, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(210, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_h8moh")
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvPBlackWin" unique_id=725895561]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="GameOverTitle" type="Label" parent="UI/GameOver/GameOverContent/PvPBlackWin/MainContainer" unique_id=786090116]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 36
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="UI/GameOver/GameOverContent/PvPBlackWin/MainContainer" unique_id=431226603]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 28
+text = "Đen THẮNG!!!"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvPBlackWin/MainContainer" unique_id=1941980965]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="UI/GameOver/GameOverContent/PvPBlackWin/MainContainer/ButtonContainer" unique_id=1790670283]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Chơi lại"
+
+[node name="BakcToMenuButton" type="Button" parent="UI/GameOver/GameOverContent/PvPBlackWin/MainContainer/ButtonContainer" unique_id=1587889184]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Menu"
+
+[node name="PvEWhiteWin" type="Panel" parent="UI/GameOver/GameOverContent" unique_id=1788515615]
+visible = false
+z_index = 10
+custom_minimum_size = Vector2(420, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(210, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_h8moh")
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvEWhiteWin" unique_id=483591584]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="GameOverTitle" type="Label" parent="UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer" unique_id=1216679863]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 36
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer" unique_id=952918894]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 28
+text = "THẮNG!!!"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer" unique_id=1526342878]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer/ButtonContainer" unique_id=582919542]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Chơi lại"
+
+[node name="BakcToMenuButton" type="Button" parent="UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer/ButtonContainer" unique_id=411267859]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Menu"
+
+[node name="PvEWhiteLose" type="Panel" parent="UI/GameOver/GameOverContent" unique_id=2113993410]
+visible = false
+z_index = 10
+custom_minimum_size = Vector2(420, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(210, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_71axn")
+
+[node name="MainContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvEWhiteLose" unique_id=1300481031]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="GameOverTitle" type="Label" parent="UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer" unique_id=1398704126]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 36
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer" unique_id=982155077]
+layout_mode = 2
+theme_override_constants/paragraph_spacing = 0
+theme_override_font_sizes/font_size = 28
+text = "THUA"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer" unique_id=974973190]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer/ButtonContainer" unique_id=906673118]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Chơi lại"
+
+[node name="BakcToMenuButton" type="Button" parent="UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer/ButtonContainer" unique_id=787012293]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Menu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/GameOver" unique_id=1074767111]
+libraries/ = SubResource("AnimationLibrary_3so38")
 
 [node name="Bot" type="Node" parent="." unique_id=884293432]
 script = ExtResource("8_2irst")

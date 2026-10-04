@@ -13,6 +13,9 @@ extends Node2D
 @onready var player1_status_notification = $UI/Player1/StatusNotification
 @onready var player2_status_notification = $UI/Player2/StatusNotification
 
+@onready var player1_status_label: Label = $UI/Player1/TimeStatusLabel
+@onready var player2_status_label: Label = $UI/Player2/TimeStatusLabel
+
 @onready var player1_movement_points = $UI/Player1/PlayerInfo/MovementPoints
 @onready var player2_movement_points = $UI/Player2/PlayerInfo/MovementPoints
 
@@ -26,6 +29,26 @@ extends Node2D
 
 @onready var bot: Node = $Bot
 
+@onready var game_over_ui = $UI/GameOver
+@onready var game_over_animation = $UI/GameOver/AnimationPlayer
+@onready var game_over_content = $UI/GameOver/GameOverContent
+
+@onready var pvp_white_win = $UI/GameOver/GameOverContent/PvPWhiteWin
+@onready var pvp_black_win = $UI/GameOver/GameOverContent/PvPBlackWin
+@onready var pve_white_win = $UI/GameOver/GameOverContent/PvEWhiteWin
+@onready var pve_white_lose = $UI/GameOver/GameOverContent/PvEWhiteLose
+
+@onready var pvp_white_restart = $UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer/ButtonContainer/RestartButton
+@onready var pvp_white_menu = $UI/GameOver/GameOverContent/PvPWhiteWin/MainContainer/ButtonContainer/BakcToMenuButton
+
+@onready var pvp_black_restart = $UI/GameOver/GameOverContent/PvPBlackWin/MainContainer/ButtonContainer/RestartButton
+@onready var pvp_black_menu = $UI/GameOver/GameOverContent/PvPBlackWin/MainContainer/ButtonContainer/BakcToMenuButton
+
+@onready var pve_win_restart = $UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer/ButtonContainer/RestartButton
+@onready var pve_win_menu = $UI/GameOver/GameOverContent/PvEWhiteWin/MainContainer/ButtonContainer/BakcToMenuButton
+
+@onready var pve_lose_restart = $UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer/ButtonContainer/RestartButton
+@onready var pve_lose_menu = $UI/GameOver/GameOverContent/PvEWhiteLose/MainContainer/ButtonContainer/BakcToMenuButton
 
 var has_moved_this_turn: bool = false
 var has_swapped_this_turn = false
@@ -35,7 +58,6 @@ var current_player: Globals.COLORS = Globals.COLORS.WHITE
 var phase = Globals.PHASE.MOVEMENT
 var movement_phase_finished: bool = false
 var game_ended = false
-var player_2_type = Globals.PLAYER_2_TYPE.AI
 
 var timeout_errors = {
 	Globals.COLORS.BLACK: 0,
@@ -43,6 +65,8 @@ var timeout_errors = {
 }
 
 func _ready():
+	print("🎮 Chế độ chơi: ", Globals.player_2_type)
+	print("🤖 Độ khó Bot: ", Globals.ai_difficulty)
 	board.game_handle = self
 	
 	timer.timer_finished.connect(_on_timer_finished)
@@ -53,6 +77,7 @@ func _ready():
 	player2_skip_button.pressed.connect(_on_skip_button_pressed.bind(Globals.COLORS.BLACK))
 	
 	update_player_buttons()
+	update_time_status()
 	
 	player1_movement_points.text = "Điểm: 0"
 	player2_movement_points.text = "Điểm: 0"
@@ -61,7 +86,17 @@ func _ready():
 	player2_error_points.text = "Lỗi: 0"
 	#timer.start_roll_phase()
 	bot.setup(self, board)
+	
+	pvp_white_restart.pressed.connect(restart_game)
+	pvp_black_restart.pressed.connect(restart_game)
+	pve_win_restart.pressed.connect(restart_game)
+	pve_lose_restart.pressed.connect(restart_game)
 
+	pvp_white_menu.pressed.connect(back_to_menu)
+	pvp_black_menu.pressed.connect(back_to_menu)
+	pve_win_menu.pressed.connect(back_to_menu)
+	pve_lose_menu.pressed.connect(back_to_menu)
+	
 func _on_roll_button_pressed(_player):
 	
 	if game_ended:
@@ -92,17 +127,19 @@ func _on_roll_button_pressed(_player):
 		first_roll = false
 		
 		print("🎲 Bạn đã gieo lần đầu.")
-		print("🤖 Bot nhận điểm và sẽ di chuyển.")
 		
 		switch_player()
+		update_time_status()
 		board.scan_board()
 		
 		if current_player == Globals.COLORS.BLACK:
-			start_bot_turn()
+			if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+				print("🤖 Bot nhận điểm và sẽ di chuyển.")
+				start_bot_turn()
 	else:
 		switch_player()
 		phase = Globals.PHASE.MOVEMENT
-		
+		update_time_status()
 		movement_phase_finished = false
 		
 		var next_player_name = "WHITE" if current_player == Globals.COLORS.WHITE else "BLACK"
@@ -110,7 +147,8 @@ func _on_roll_button_pressed(_player):
 		board.scan_board()
 		
 		if current_player == Globals.COLORS.BLACK:
-			start_bot_turn()
+			if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+				start_bot_turn()
 			
 	board.deselect_piece()
 	board.ui.deselect_reserve()
@@ -132,11 +170,12 @@ func switch_player():
 		print("Sau khi đổi lượt: ", player_name)
 	
 	update_player_buttons()
+	update_player_layers()
 	 # Reset TimeBar của người chơi mới
 	if current_player == Globals.COLORS.WHITE:
-		$UI/Player1/TimeBar.value = 40
+		$UI/Player1/TimeRow/TimeBarContainer/TimeBar.value = 40
 	else:
-		$UI/Player2/TimeBar.value = 40
+		$UI/Player2/TimeRow/TimeBarContainer/TimeBar.value = 40
 
 	# Bắt đầu lại Timer cho lượt mới
 	timer_max_time = timer.MOVEMENT_TIME
@@ -168,27 +207,51 @@ func _on_skip_button_pressed(_player):
 	movement_phase_finished = true
 	phase = Globals.PHASE.ROLL
 	
+	update_time_status()
+	
 	board.deselect_piece()
 	board.clear_highlight_cells()
 	show_status_notification(_player)
 	
+	timer_max_time = timer.ROLL_TIME
 	timer.start_roll_phase()
 	board.ui.deselect_reserve()
 	
 func update_player_buttons():
-	if current_player == Globals.COLORS.WHITE:
-		# =========================
-		# ĐẾN LƯỢT WHITE
-		# =========================
+	# =========================
+	# PVP
+	# =========================
+	if Globals.player_2_type == Globals.PLAYER_2_TYPE.HUMAN:
+		# PvP → cả hai người đều có thể bấm nút
+		# Logic _on_roll / _on_skip sẽ kiểm tra có đúng lượt hay không
 		
-		# White luôn là người chơi
+		roll_button.disabled = false
+		skip_button.disabled = false
+		
+		player2_roll_button.disabled = false
+		player2_skip_button.disabled = false
+		
+		roll_button.modulate.a = 1.0
+		skip_button.modulate.a = 1.0
+		
+		player2_roll_button.modulate.a = 1.0
+		player2_skip_button.modulate.a = 1.0
+		
+		return
+	
+	
+	# =========================
+	# PVE
+	# =========================
+	if current_player == Globals.COLORS.WHITE:
+		# White là người chơi
 		roll_button.disabled = false
 		skip_button.disabled = false
 		
 		roll_button.modulate.a = 1.0
 		skip_button.modulate.a = 1.0
 		
-		# White không phải Bot
+		# Black là Bot → khóa nút
 		player2_roll_button.disabled = true
 		player2_skip_button.disabled = true
 		
@@ -196,32 +259,84 @@ func update_player_buttons():
 		player2_skip_button.modulate.a = 0.5
 		
 	else:
-		# =========================
-		# ĐẾN LƯỢT BLACK
-		# =========================
-		
-		# White không được thao tác
+		# Black là Bot → White cũng không được thao tác
 		roll_button.disabled = true
 		skip_button.disabled = true
 		
 		roll_button.modulate.a = 0.5
 		skip_button.modulate.a = 0.5
 		
-		if player_2_type == Globals.PLAYER_2_TYPE.HUMAN:
-			# PvP → Black là người chơi
-			player2_roll_button.disabled = false
-			player2_skip_button.disabled = false
-			
-			player2_roll_button.modulate.a = 1.0
-			player2_skip_button.modulate.a = 1.0
-			
+		player2_roll_button.disabled = true
+		player2_skip_button.disabled = true
+		
+		player2_roll_button.modulate.a = 0.5
+		player2_skip_button.modulate.a = 0.5
+
+func update_player_layers():
+	if current_player == Globals.COLORS.WHITE:
+		$UI/Player2Layer.modulate.a = 1.0
+		$UI/Player1Layer.modulate.a = 0.35
+	else:
+		$UI/Player2Layer.modulate.a = 0.35
+		$UI/Player1Layer.modulate.a = 1.0
+
+func update_time_status():
+	# Luôn xóa trạng thái cũ trước
+	$UI/Player1/TimeStatusLabel.text = ""
+	$UI/Player2/TimeStatusLabel.text = ""
+
+	# Chưa tung xúc xắc lần đầu
+	if first_roll:
+		return
+
+	# Game kết thúc
+	if game_ended:
+		return
+
+	# Lấy trạng thái Reserve từ UI.gd
+	var reserve_selected = $UI.selected_reserve_slot != null
+
+	# =========================
+	# PHASE MOVEMENT
+	# =========================
+	if phase == Globals.PHASE.MOVEMENT:
+
+		# Đang chuẩn bị Swap
+		if reserve_selected:
+
+			if current_player == Globals.COLORS.WHITE:
+				$UI/Player1/TimeStatusLabel.text = "🔃 Người chơi đang chuẩn bị thay quân"
+			else:
+				if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+					$UI/Player2/TimeStatusLabel.text = "🔃 Bot đang chuẩn bị thay quân"
+				else:
+					$UI/Player2/TimeStatusLabel.text = "🔃 Người chơi 2 đang chuẩn bị thay quân"
+
+		# Movement bình thường
 		else:
-			# PvE → Black là Bot
-			player2_roll_button.disabled = true
-			player2_skip_button.disabled = true
-			
-			player2_roll_button.modulate.a = 0.5
-			player2_skip_button.modulate.a = 0.5
+
+			if current_player == Globals.COLORS.WHITE:
+				$UI/Player1/TimeStatusLabel.text = "⌛ Người chơi đang di chuyển"
+
+			else:
+				if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+					$UI/Player2/TimeStatusLabel.text = "⌛ Bot đang di chuyển"
+				else:
+					$UI/Player2/TimeStatusLabel.text = "⌛ Người chơi 2 đang di chuyển"
+
+	# =========================
+	# PHASE ROLL
+	# =========================
+	elif phase == Globals.PHASE.ROLL:
+
+		if current_player == Globals.COLORS.WHITE:
+			$UI/Player1/TimeStatusLabel.text = "🎲 Người chơi đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
+
+		else:
+			if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+				$UI/Player2/TimeStatusLabel.text = "🎲 Bot đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
+			else:
+				$UI/Player2/TimeStatusLabel.text = "🎲 Người chơi 2 đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
 
 func show_status_notification(player):
 	if player == Globals.COLORS.WHITE:
@@ -233,10 +348,10 @@ func show_status_notification(player):
 
 func end_movement_phase_notification(player):
 	if player == Globals.COLORS.WHITE:
-		player1_status_notification.text = "Thời gian di chuyển đã hết. \nHãy tung xúc xắc để kết thúc lượt"
+		player1_status_notification.text = "Thời gian di chuyển đã hết."
 		return
 	else:
-		player2_status_notification.text = "Thời gian di chuyển đã hết. \nHãy tung xúc xắc để kết thúc lượt"
+		player2_status_notification.text = "Thời gian di chuyển đã hết."
 		return
 
 func hide_status_notification(player):
@@ -258,6 +373,7 @@ func _on_timer_finished():
 	print("🎮 Game.gd nhận được tín hiệu Timer hết giờ!")
 	
 	if phase == Globals.PHASE.MOVEMENT:
+		update_time_status()
 		dice.remaining_points = 0
 		board.clear_highlight_cells()
 		
@@ -272,6 +388,7 @@ func _on_timer_finished():
 		
 		phase = Globals.PHASE.ROLL
 		end_movement_phase_notification(current_player)
+		update_time_status()
 		print("🔄 Game chuyển sang phase ROLL")
 		print("Phase hiện tại: ", phase)
 		
@@ -293,18 +410,20 @@ func _on_timer_finished():
 		board.scan_board()
 		phase = Globals.PHASE.MOVEMENT
 		timer_max_time = timer.MOVEMENT_TIME
+		update_time_status()
 		timer.start_movement_phase()
+		start_bot_turn()
 		#timeout_errors += 1
 		#print("⚠️ Số lỗi câu giờ: ", timeout_errors)
 		
 		#if timeout_errors >= 3:
 			#print("💀 Người chơi đã thua vì câu giờ!")
 
-func update_timer_bar():
-	if current_player == Globals.COLORS.WHITE:
-		$UI/Player1/TimerBar.value = timer.time_left
-	else:
-		$UI/Player2/TimerBar.value = timer.time_left
+#func update_timer_bar():
+	#if current_player == Globals.COLORS.WHITE:
+		#$UI/Player1/TimerBar.value = timer.time_left
+	#else:
+		#$UI/Player2/TimerBar.value = timer.time_left
 
 func get_timer_bar_value():
 	if timer_max_time <= 0:
@@ -315,15 +434,26 @@ func get_timer_bar_value():
 
 	else:
 		return (timer.time_left / timer_max_time) * 10
-	
-func _process(delta):
+
+func get_timer_display_seconds():
+	return ceili(get_timer_bar_value())
+
+func _process(_delta):
 	if not timer.is_stopped():
 		var bar_value = get_timer_bar_value()
+		var time_seconds = get_timer_display_seconds()
 
 		if current_player == Globals.COLORS.WHITE:
-			$UI/Player1/TimeBar.value = bar_value
+			$UI/Player1/TimeRow/TimeBarContainer/TimeBar.value = bar_value
+			$UI/Player1/TimeRow/TimeLabel.text = str(time_seconds) + "s"
+
+			$UI/Player2/TimeRow/TimeLabel.text = "0s"
+
 		else:
-			$UI/Player2/TimeBar.value = bar_value
+			$UI/Player2/TimeRow/TimeBarContainer/TimeBar.value = bar_value
+			$UI/Player2/TimeRow/TimeLabel.text = str(time_seconds) + "s"
+
+			$UI/Player1/TimeRow/TimeLabel.text = "0s"
 
 func check_no_action():
 	if not has_moved_this_turn and not has_swapped_this_turn:
@@ -356,6 +486,8 @@ func check_action_error():
 		return true
 
 func start_bot_turn():
+	if Globals.player_2_type != Globals.PLAYER_2_TYPE.AI:
+		return
 	if current_player != Globals.COLORS.BLACK:
 		return
 	
@@ -365,7 +497,12 @@ func start_bot_turn():
 	print("🤖 Đến lượt Bot!")
 	print("🤖 Bot có ", dice.remaining_points, " điểm.")
 	
-	await bot.easy_move()
+	await bot.make_move()
+	if game_ended:
+		return
+	timer_max_time = timer.ROLL_TIME
+	timer.start_roll_phase()
+	update_time_status()
 	finish_bot_turn()
 
 func finish_bot_turn():
@@ -375,9 +512,9 @@ func finish_bot_turn():
 	print("🤖 Bot đã hoàn thành lượt.")
 	
 	phase = Globals.PHASE.ROLL
-	
+	update_time_status()
 	# Bot chờ ngẫu nhiên từ 1 đến 10 giây trước khi tung xúc xắc
-	var roll_wait_time = randi_range(1, 10)
+	var roll_wait_time = randi_range(1, 5)
 	
 	print("🎲 Bot sẽ tung xúc xắc sau ", roll_wait_time, " giây.")
 	
@@ -403,18 +540,49 @@ func finish_bot_turn():
 	switch_player()
 	
 	phase = Globals.PHASE.MOVEMENT
+	update_time_status()
 	movement_phase_finished = false
 	
 	board.scan_board()
 
 
-
 func game_over(winner):
+	print("🔥 GAME OVER! Người thắng: ", winner)
+
 	game_ended = true
 	timer.stop()
-	#board.deselect_piece()
 	board.clear_highlight_cells()
 	board.ui.deselect_reserve()
 	board.ui.clear_reserve_highlights()
-	print("🏆 GAME OVER!")
-	print("Người thắng: ", winner)
+
+	game_over_ui.show()
+
+	game_over_content.modulate = Color.WHITE
+	game_over_content.scale = Vector2.ONE
+
+	pvp_white_win.hide()
+	pvp_black_win.hide()
+	pve_white_win.hide()
+	pve_white_lose.hide()
+
+	if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+		if winner == Globals.COLORS.WHITE:
+			pve_white_win.show()
+		else:
+			pve_white_lose.show()
+	else:
+		if winner == Globals.COLORS.WHITE:
+			pvp_white_win.show()
+		else:
+			pvp_black_win.show()
+
+	game_over_animation.play("GameOverAppear")
+	get_tree().paused = true
+
+func restart_game():
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func back_to_menu():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scenes/TestMenu.tscn")

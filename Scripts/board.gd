@@ -96,17 +96,17 @@ func init_pieces():
 
 	# ===== DEBUG TEST =====
 
-	#var test_piece_1 = piece_scene.instantiate()
-	#add_child(test_piece_1)
-#
-	#test_piece_1.init_piece(
-		#Globals.PIECE_TYPES.KING,
-		#Globals.COLORS.BLACK,
-		#Vector2(4, 5),
-		#self
-	#)
-#
-	#pieces.append(test_piece_1)
+	var test_piece_1 = piece_scene.instantiate()
+	add_child(test_piece_1)
+
+	test_piece_1.init_piece(
+		Globals.PIECE_TYPES.KING,
+		Globals.COLORS.BLACK,
+		Vector2(4, 5),
+		self
+	)
+
+	pieces.append(test_piece_1)
 #
 #
 	#var test_piece_2 = piece_scene.instantiate()
@@ -165,9 +165,16 @@ func _unhandled_input(event):
 		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			
 			var mouse_position = get_local_mouse_position()
-
+			if (
+				mouse_position.x < 0
+				or mouse_position.y < 0
+				or mouse_position.x >= BOARD_WIDTH * CELL_SIZE
+				or mouse_position.y >= BOARD_HEIGHT * CELL_SIZE
+			):
+				deselect_piece()
+				ui.deselect_reserve()
+				return
 			var board_x = int(mouse_position.x / CELL_SIZE)
 			var board_y = int(mouse_position.y / CELL_SIZE)
 
@@ -195,6 +202,8 @@ func _unhandled_input(event):
 					get_viewport().set_input_as_handled()
 					return
 				if piece_at_target == null:
+					deselect_piece()
+					ui.deselect_reserve()
 					print("Ô trống")
 				else:
 					print("🔄 Đang chọn quân dự bị: ", ui.selected_reserve_type)
@@ -218,6 +227,7 @@ func _unhandled_input(event):
 					print("Có thể thay quân? ", can_swap)
 					if game_handle.dice.remaining_points <= 0:
 						ui.deselect_reserve()
+						deselect_piece()
 						print("❌ Không còn điểm di chuyển, không thể thay quân dự bị!")
 						get_viewport().set_input_as_handled()
 						return
@@ -265,10 +275,10 @@ func _unhandled_input(event):
 					else:
 						var old_piece_sprite = ui.selected_reserve_slot.get_node("ReservePiece")
 						old_piece_sprite.modulate = Color.WHITE
-
 						ui.selected_reserve_slot = null
 						ui.selected_reserve_type = null
-
+						#ui.deselect_reserve()
+						#deselect_piece()
 						print("❌ Không thể thay quân dự bị!")
 						
 				get_viewport().set_input_as_handled()
@@ -440,6 +450,73 @@ func highlight_cells_at(positions):
 		
 		highlight_cells.append(cell)
 
+func highlight_bot_move(piece, target_position):
+	var piece_highlight = highlight_cell.duplicate()
+	add_child(piece_highlight)
+
+	piece_highlight.position = Vector2(
+		piece.board_position.x * 60,
+		piece.board_position.y * 60
+	)
+
+	piece_highlight.visible = true
+	piece_highlight.modulate = Color(1, 0.2, 0.2, 0.0)
+
+	var tween1 = create_tween()
+	tween1.tween_property(
+		piece_highlight,
+		"modulate:a",
+		1.0,
+		0.2
+	)
+
+	highlight_cells.append(piece_highlight)
+
+	var target_highlight = highlight_cell.duplicate()
+	add_child(target_highlight)
+
+	target_highlight.position = Vector2(
+		target_position.x * 60,
+		target_position.y * 60
+	)
+
+	target_highlight.visible = true
+	target_highlight.modulate.a = 0.0
+
+	var tween2 = create_tween()
+	tween2.tween_property(
+		target_highlight,
+		"modulate:a",
+		1.0,
+		0.2
+	)
+
+	highlight_cells.append(target_highlight)
+
+func highlight_bot_swap(piece, reserve_slot):
+	var piece_highlight = highlight_cell.duplicate()
+	add_child(piece_highlight)
+
+	piece_highlight.position = Vector2(
+		piece.board_position.x * 60,
+		piece.board_position.y * 60
+	)
+
+	piece_highlight.visible = true
+	piece_highlight.modulate = Color(1, 0.2, 0.2, 0.0)
+
+	var tween = create_tween()
+	tween.tween_property(
+		piece_highlight,
+		"modulate:a",
+		1.0,
+		0.2
+	)
+
+	highlight_cells.append(piece_highlight)
+
+	ui.highlight_bot_reserve_slot(reserve_slot)
+
 func clear_highlight_cells():
 	for cell in highlight_cells:
 		cell.queue_free()
@@ -530,7 +607,8 @@ func swap_with_reserve(piece, reserve_type, reserve_slot):
 	reserve_piece_sprite.modulate = Color.WHITE
 	
 	ui.clear_reserve_highlights() #tắt highlight sau khi thay dự bị xong
-	
+	ui.deselect_reserve()
+	game_handle.update_time_status()
 	# Khóa lại ô dự bị
 	reserve_slot.get_node("LockOverlay").visible = true
 	reserve_slot.get_node("LockSprite").visible = true

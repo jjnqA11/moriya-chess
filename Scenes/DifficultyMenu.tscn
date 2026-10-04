@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bi4dyxeet4m03"]
+
+[ext_resource type="Script" uid="uid://by6uq08bf3x8i" path="res://Scenes Scripts/difficultyMenu.gd" id="1_s2ra4"]
+
+[node name="DifficultyMenu" type="Control" unique_id=1301231385]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s2ra4")
+
+[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=839650974]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -116.5
+offset_right = 120.0
+offset_bottom = 116.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MenuContainer" unique_id=1376099607]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "CHỌN ĐỘ KHÓ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EasyButton" type="Button" parent="MenuContainer" unique_id=1664654224]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🟢 EASY"
+
+[node name="MediumButton" type="Button" parent="MenuContainer" unique_id=302316618]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🟡 MEDIUM"
+
+[node name="HardButton" type="Button" parent="MenuContainer" unique_id=1950935150]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🔴 HARD "
+
+[node name="InsaneButton" type="Button" parent="MenuContainer" unique_id=899117555]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🟣 INSANE - Đang phát triển"
+
+[node name="ExtremeButton" type="Button" parent="MenuContainer" unique_id=531369065]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "💀 EXTREME - Đang phát triển"
+
+[node name="BackButton" type="Button" parent="MenuContainer" unique_id=1874077624]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "← QUAY LẠI"
+
+[connection signal="pressed" from="MenuContainer/EasyButton" to="." method="_on_easy_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MediumButton" to="." method="_on_medium_button_pressed"]
+[connection signal="pressed" from="MenuContainer/HardButton" to="." method="_on_hard_button_pressed"]
+[connection signal="pressed" from="MenuContainer/InsaneButton" to="." method="_on_insane_button_pressed"]
+[connection signal="pressed" from="MenuContainer/ExtremeButton" to="." method="_on_extreme_button_pressed"]
+[connection signal="pressed" from="MenuContainer/BackButton" to="." method="_on_back_button_pressed"]

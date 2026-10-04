@@ -37,7 +37,26 @@ func get_current_player_reserve():
 func get_current_player_reserve_slots():
 	var reserve = get_current_player_reserve()
 	return reserve.get_children()
-	
+
+func get_bot_reserve_visual_color():
+	match Globals.ai_difficulty:
+		Globals.AI_DIFFICULTY.EASY:
+			return Color.WHITE
+
+		Globals.AI_DIFFICULTY.MEDIUM:
+			return Color(0.65, 0.2, 0.9)
+
+		Globals.AI_DIFFICULTY.HARD:
+			return Color(0.588, 0.0, 0.065, 1.0)
+
+		Globals.AI_DIFFICULTY.INSANE:
+			return Color(1.0, 0.8, 0.1)
+
+		Globals.AI_DIFFICULTY.EXTREME:
+			return Color(0.45, 0.03, 0.03)
+
+	return Color.WHITE
+
 func create_reserve_slots():
 	for i in range(3):
 		var slot = ColorRect.new()
@@ -50,7 +69,7 @@ func create_reserve_slots():
 		overlay.name = "LockOverlay"
 		overlay.color = Color(0, 0, 0, 0.35)
 		overlay.size = Vector2(CELL_SIZE, CELL_SIZE)
-		overlay.z_index = 10
+		overlay.z_index = 3
 		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		slot.add_child(overlay)
 		
@@ -61,7 +80,7 @@ func create_reserve_slots():
 		lock_sprite.position = Vector2(CELL_SIZE / 2, CELL_SIZE / 2)
 		lock_sprite.modulate = Color(1, 1, 1, 1)
 		lock_sprite.scale = Vector2(1.5, 1.5)
-		lock_sprite.z_index = 10
+		lock_sprite.z_index = 3
 		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		slot.add_child(lock_sprite)
 		
@@ -86,7 +105,7 @@ func create_reserve_slots():
 		overlay.name = "LockOverlay"
 		overlay.color = Color(0, 0, 0, 0.35)
 		overlay.size = Vector2(CELL_SIZE, CELL_SIZE)
-		overlay.z_index = 10
+		overlay.z_index = 3
 		slot.add_child(overlay)
 
 		var lock_sprite = Sprite2D.new()
@@ -96,7 +115,7 @@ func create_reserve_slots():
 		lock_sprite.position = Vector2(CELL_SIZE / 2, CELL_SIZE / 2)
 		lock_sprite.modulate = Color(1, 1, 1, 1)
 		lock_sprite.scale = Vector2(1.5, 1.5)
-		lock_sprite.z_index = 10
+		lock_sprite.z_index = 3
 		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		slot.add_child(lock_sprite)
 		
@@ -129,7 +148,8 @@ func create_reserve_piece(slot, color, piece_type):
 	)
 
 	slot.add_child(piece_sprite)
-
+	update_reserve_piece_visual(slot, color)
+	
 func unlock_black_reserve():
 	black_reserve_unlocked = true
 	
@@ -160,14 +180,25 @@ func _on_reserve_slot_input(event, slot):
 				print("❌ Chỉ được thay quân trong phase di chuyển!")
 				board.deselect_piece()
 				return
+			# PvE: không cho người chơi thao tác Reserve của Bot
+				if (Globals.player_2_type == Globals.PLAYER_2_TYPE.AI and game_handle.current_player == Globals.COLORS.BLACK):
+					notification_layer.show_notification("Quân dự bị không hợp lệ!")
+					get_viewport().set_input_as_handled()
+				return
+			var current_reserve = get_current_player_reserve()
+			if slot.get_parent() != current_reserve:
+				notification_layer.show_notification("Quân dự bị không hợp lệ!")
+				get_viewport().set_input_as_handled()
+				return
 			if board.selected_piece != null:
 				if not is_current_player_reserve_unlocked():
 					board.deselect_piece()
+					board.clear_highlight_cells()
+					deselect_reserve()
 					print("❌ Quân dự bị chưa được mở khóa!")
 					return
 				if slot in board.used_reserve_slots:
 					board.deselect_piece()
-					board.clear_highlight_cells()
 					board.clear_highlight_cells()
 					deselect_reserve()
 
@@ -212,13 +243,14 @@ func _on_reserve_slot_input(event, slot):
 			# Chọn quân mới
 			var piece_type = slot.get_meta("piece_type")
 			var piece_sprite = slot.get_node("ReservePiece")
-
+			
 			selected_reserve_type = piece_type
 			selected_reserve_slot = slot
 
 			piece_sprite.modulate = Color.RED
 
 			print("Đã chọn dự bị: ", selected_reserve_type)
+			game_handle.update_time_status()
 
 func highlight_reserve_slot(slot):
 	var highlight = reserve_highlight_cell.duplicate()
@@ -254,7 +286,93 @@ func highlight_reserve_slot(slot):
 	)
 
 	reserve_highlights.append(highlight)
-	
+
+func highlight_bot_reserve_slot(slot):
+	var highlight = reserve_highlight_cell.duplicate()
+
+	slot.add_child(highlight)
+
+	highlight.position = Vector2.ZERO
+	highlight.visible = true
+	highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	highlight.z_index = 20
+
+	# Màu đỏ
+	highlight.modulate = Color(1, 0.2, 0.2, 0.0)
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		highlight,
+		"modulate:a",
+		1.0,
+		0.2
+	)
+
+	reserve_highlights.append(highlight)
+
+func update_reserve_piece_visual(slot, color):
+	var piece_sprite = slot.get_node_or_null("ReservePiece")
+
+	if piece_sprite == null:
+		print("⚠️ Không tìm thấy ReservePiece trong: ", slot.get_path())
+		return
+
+	var piece_type = slot.get_meta("piece_type")
+
+	var sprite_color = color
+	var visual_color = Color.WHITE
+
+	# ==========================================
+	# BOT TRONG PVE
+	# ==========================================
+	if color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+
+		match Globals.ai_difficulty:
+
+			Globals.AI_DIFFICULTY.EASY:
+				# Easy giữ sprite đen gốc
+				sprite_color = Globals.COLORS.BLACK
+				visual_color = Color.WHITE
+
+			Globals.AI_DIFFICULTY.MEDIUM:
+				sprite_color = Globals.COLORS.WHITE
+				visual_color = Color(0.65, 0.2, 0.9)
+
+			Globals.AI_DIFFICULTY.HARD:
+				sprite_color = Globals.COLORS.WHITE
+				visual_color = Color(0.588, 0.0, 0.065, 1.0)
+
+			Globals.AI_DIFFICULTY.INSANE:
+				sprite_color = Globals.COLORS.WHITE
+				visual_color = Color(1.0, 0.8, 0.1)
+
+			Globals.AI_DIFFICULTY.EXTREME:
+				sprite_color = Globals.COLORS.WHITE
+				visual_color = Color(0.45, 0.03, 0.03)
+
+	# ==========================================
+	# PLAYER / PVP
+	# ==========================================
+	else:
+		sprite_color = color
+		visual_color = Color.WHITE
+
+	# ==========================================
+	# CẬP NHẬT SPRITE
+	# ==========================================
+	var region_pos = Globals.SPRITE_MAPPING[sprite_color][piece_type]
+
+	piece_sprite.region_enabled = true
+	piece_sprite.region_rect = Rect2(
+		region_pos.x * SPRITE_SIZE,
+		region_pos.y * SPRITE_SIZE,
+		SPRITE_SIZE,
+		SPRITE_SIZE
+	)
+
+	piece_sprite.modulate = visual_color
+
 func clear_reserve_highlights():
 	for highlight in reserve_highlights:
 		highlight.queue_free()
@@ -263,34 +381,23 @@ func clear_reserve_highlights():
 
 func deselect_reserve():
 	if selected_reserve_slot != null:
-		var piece_sprite = selected_reserve_slot.get_node("ReservePiece")
-		piece_sprite.modulate = Color.WHITE
+		var reserve_color = Globals.COLORS.WHITE
+
+		if selected_reserve_slot.get_parent() == black_reserve:
+			reserve_color = Globals.COLORS.BLACK
+
+		update_reserve_piece_visual(
+			selected_reserve_slot,
+			reserve_color
+		)
 
 	selected_reserve_slot = null
 	selected_reserve_type = null
+
+	game_handle.update_time_status()
 
 func is_current_player_reserve_unlocked():
 	if game_handle.current_player == Globals.COLORS.BLACK:
 		return black_reserve_unlocked
 	else:
 		return white_reserve_unlocked
-
-#func _on_reserve_slot_input(event, slot):
-	#if game_handle.game_ended:
-		#return
-#
-	#if event is InputEventMouseButton:
-		#if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			#var board = $"../Board"
-#
-			#if game_handle.phase != Globals.PHASE.MOVEMENT:
-				#print("❌ Chỉ được thay quân trong phase di chuyển!")
-				#board.deselect_piece()
-				#return
-#
-			#if not is_current_player_reserve_unlocked():
-				#board.deselect_piece()
-				#board.clear_highlight_cells()
-				#clear_reserve_highlights()
-				#print("❌ Quân dự bị chưa được mở khóa!")
-				#return
