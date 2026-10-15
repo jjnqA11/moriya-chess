@@ -19,6 +19,7 @@ var game_handle
 
 var selected: bool = false
 var highlighted: bool = false
+var apply_difficulty_visuals: bool = true
 var move_direction = Vector2.ZERO
 
 func _ready():
@@ -61,7 +62,8 @@ func init_piece(
 	type: Globals.PIECE_TYPES,
 	col: Globals.COLORS,
 	board_pos: Vector2,
-	board
+	board,
+	apply_difficulty_visuals_for_piece: bool = true
 ):
 	piece_type = type
 	color = col
@@ -70,6 +72,7 @@ func init_piece(
 	game_handle = board.get_parent()
 	moved = false
 	captured_this_turn = false
+	apply_difficulty_visuals = apply_difficulty_visuals_for_piece
 	
 	update_sprite()
 
@@ -85,7 +88,7 @@ func update_sprite():
 		var visual_color = Color.WHITE
 
 		# Bot trong PvE
-		if color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+		if apply_difficulty_visuals and color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
 
 			match Globals.ai_difficulty:
 				Globals.AI_DIFFICULTY.EASY:
@@ -156,7 +159,7 @@ func set_highlighted(value):
 		return
 
 	# Có highlight
-	if color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
+	if apply_difficulty_visuals and color == Globals.COLORS.BLACK and Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
 		update_sprite()
 
 		highlight.visible = true
@@ -213,6 +216,7 @@ func is_valid_move(target: Vector2) -> bool:
 func pawn_rule(target: Vector2) -> bool:
 	if moved:
 		print("❌ Tốt này đã di chuyển trong lượt này!")
+		board_handle.deselect_piece()
 		return false
 
 	var direction = -1 if color == Globals.COLORS.WHITE else 1
@@ -305,15 +309,24 @@ func queen_rule(target: Vector2) -> bool:
 			print("❌ Hậu không được đổi hướng trong lượt này!")
 			return false
 	
-	if direction == Vector2(1, 0) or direction == Vector2(-1, 0) \
-	or direction == Vector2(0, 1) or direction == Vector2(0, -1):
+	if direction.x == 0 or direction.y == 0:
+		# Hậu đi ngang hoặc dọc
 		if not is_path_clear(target):
+			print("❌ Hậu bị quân khác chặn đường!")
+			return false
+	else:
+		# Hậu đi chéo
+		if not is_bishop_path_clear(target):
 			print("❌ Hậu bị quân khác chặn đường!")
 			return false
 	
 	return true
 
 func king_rule(target: Vector2) -> bool:
+	# Kiểm tra điều kiện ngay cả khi có nơi gọi xác thực trực tiếp.
+	if not board_handle.can_king_move_this_turn(self):
+		return false
+		
 	var direction = get_queen_direction(target)
 
 	if direction == Vector2.ZERO:
@@ -646,6 +659,10 @@ func scan_queen(max_points: int):
 
 func scan_king(max_points: int):
 	var scan_results = []
+
+	# Vua phải đủ điều kiện mới được hiển thị các ô có thể đi.
+	if not board_handle.can_king_move_this_turn(self):
+		return scan_results
 
 	if max_points <= 0:
 		return scan_results

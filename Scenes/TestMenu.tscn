@@ -43,7 +43,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "👥 NGƯỜI vs NGƯỜI"
 
-[node name="TutorialButton" type="Button" parent="MenuContainer" unique_id=822304398]
+[node name="HowToPlayButton" type="Button" parent="MenuContainer" unique_id=822304398]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -63,4 +63,5 @@ text = "THOÁT"
 
 [connection signal="pressed" from="MenuContainer/PvEButton" to="." method="_on_pv_e_button_pressed"]
 [connection signal="pressed" from="MenuContainer/PvPButton" to="." method="_on_pv_p_button_pressed"]
+[connection signal="pressed" from="MenuContainer/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
 [connection signal="pressed" from="MenuContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

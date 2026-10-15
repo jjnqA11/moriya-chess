@@ -36,6 +36,8 @@ func _ready():
 	highlight_timer.timeout.connect(_on_highlight_timer_timeout)
 	
 	highlight_cell.visible = false
+	
+	
 
 func draw_board():
 	for x in range(Globals.BOARD_WIDTH):
@@ -96,17 +98,17 @@ func init_pieces():
 
 	# ===== DEBUG TEST =====
 
-	var test_piece_1 = piece_scene.instantiate()
-	add_child(test_piece_1)
-
-	test_piece_1.init_piece(
-		Globals.PIECE_TYPES.KING,
-		Globals.COLORS.BLACK,
-		Vector2(4, 5),
-		self
-	)
-
-	pieces.append(test_piece_1)
+	#var test_piece_1 = piece_scene.instantiate()
+	#add_child(test_piece_1)
+#
+	#test_piece_1.init_piece(
+		#Globals.PIECE_TYPES.KING,
+		#Globals.COLORS.BLACK,
+		#Vector2(4, 5),
+		#self
+	#)
+#
+	#pieces.append(test_piece_1)
 #
 #
 	#var test_piece_2 = piece_scene.instantiate()
@@ -334,8 +336,7 @@ func _unhandled_input(event):
 					" -> Ô đích: ",
 					target_position
 				)
-				if selected_piece.is_valid_move(target_position):
-					execute_move(selected_piece, target_position)
+				execute_move(selected_piece, target_position)
 				get_viewport().set_input_as_handled()
 
 func get_piece_at(position: Vector2):
@@ -384,6 +385,37 @@ func reset_piece_directions():
 		piece.move_direction = Vector2.ZERO
 		piece.moved = false
 		piece.captured_this_turn = false
+
+func can_king_move_this_turn(king_piece) -> bool: 
+	if king_piece == null:
+		return false
+
+	if king_piece.piece_type != Globals.PIECE_TYPES.KING:
+		return false
+
+	var friendly_piece_count := 0
+	var moved_friendly_piece_count := 0
+
+	for piece in pieces:
+		if piece.color != king_piece.color:
+			continue
+
+		# Không tính quân Vua vào số quân chuẩn bị.
+		if piece.piece_type == Globals.PIECE_TYPES.KING:
+			continue
+
+		friendly_piece_count += 1
+
+		# Mỗi quân chỉ được tính một lần.
+		if piece.moved:
+			moved_friendly_piece_count += 1
+
+	# Có 2 quân khác Vua trở lên: cần di chuyển 2 quân.
+	# Chỉ có 1 quân khác Vua: cần di chuyển quân đó.
+	# Chỉ còn Vua: không cần quân nào di chuyển trước.
+	var required_moves := mini(2, friendly_piece_count)
+
+	return moved_friendly_piece_count >= required_moves
 
 func scan_board():
 	if game_handle.game_ended:

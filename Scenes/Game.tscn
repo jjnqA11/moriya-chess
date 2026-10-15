@@ -67,7 +67,7 @@ corner_radius_bottom_left = 15
 
 [sub_resource type="Animation" id="Animation_71axn"]
 resource_name = "GameOverAppear"
-length = 0.39999999999999997
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -214,9 +214,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="TimeStatusLabel" type="Label" parent="UI/Player1" unique_id=368079600]
+custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="TimeRow" type="BoxContainer" parent="UI/Player1" unique_id=206682106]
 layout_mode = 2
@@ -327,9 +329,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="TimeStatusLabel" type="Label" parent="UI/Player2" unique_id=338325626]
+custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="TimeRow" type="BoxContainer" parent="UI/Player2" unique_id=1173537785]
 layout_mode = 2

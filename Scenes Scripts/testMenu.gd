@@ -19,7 +19,10 @@ func _on_pv_p_button_pressed() -> void:
 func _on_pv_e_button_pressed() -> void:
 	Globals.player_2_type = Globals.PLAYER_2_TYPE.AI
 	get_tree().change_scene_to_file("res://Scenes/DifficultyMenu.tscn")
-
+	
 
 func _on_settings_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Settings.tscn")
+
+func _on_how_to_play_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/HowToPlay.tscn")

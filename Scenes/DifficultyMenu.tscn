@@ -37,27 +37,29 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "🟢 EASY"
+text = "🟢 DỄ"
 
 [node name="MediumButton" type="Button" parent="MenuContainer" unique_id=302316618]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "🟡 MEDIUM"
+text = "🟡 TRUNG BÌNH"
 
 [node name="HardButton" type="Button" parent="MenuContainer" unique_id=1950935150]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "🔴 HARD "
+text = "🔴 KHÓ"
 
 [node name="InsaneButton" type="Button" parent="MenuContainer" unique_id=899117555]
+visible = false
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "🟣 INSANE - Đang phát triển"
 
 [node name="ExtremeButton" type="Button" parent="MenuContainer" unique_id=531369065]
+visible = false
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

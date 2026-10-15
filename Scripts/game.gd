@@ -330,20 +330,20 @@ func update_time_status():
 	elif phase == Globals.PHASE.ROLL:
 
 		if current_player == Globals.COLORS.WHITE:
-			$UI/Player1/TimeStatusLabel.text = "🎲 Người chơi đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
+			$UI/Player1/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
 
 		else:
 			if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
-				$UI/Player2/TimeStatusLabel.text = "🎲 Bot đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
+				$UI/Player2/TimeStatusLabel.text = " 🎲 Chuẩn bị tung xúc xắc"
 			else:
-				$UI/Player2/TimeStatusLabel.text = "🎲 Người chơi 2 đang chuẩn bị tung xúc xắc, hãy sẵn sàng"
+				$UI/Player2/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
 
 func show_status_notification(player):
 	if player == Globals.COLORS.WHITE:
-		player1_status_notification.text = "Người chơi bỏ qua số điểm còn lại."
+		player1_status_notification.text = ""
 		return
 	else:
-		player2_status_notification.text = "Người chơi bỏ qua số điểm còn lại."
+		player2_status_notification.text = ""
 		return
 
 func end_movement_phase_notification(player):
