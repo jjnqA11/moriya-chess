@@ -1,30 +1,32 @@
+# đảm nhận điều phối game mechanic hoạt động
+
 extends Node2D
 
 @onready var timer = $Timer
 @onready var board = $Board
 @onready var dice = $Dice
 
-@onready var roll_button = $UI/Player1/Buttons/RollButton
-@onready var skip_button = $UI/Player1/Buttons/SkipButton
+@onready var roll_button = %Player1/Buttons/RollButton
+@onready var skip_button = %Player1/Buttons/SkipButton
 
-@onready var player2_roll_button = $UI/Player2/Buttons/RollButton
-@onready var player2_skip_button = $UI/Player2/Buttons/SkipButton
+@onready var player2_roll_button = %Player2/Buttons/RollButton
+@onready var player2_skip_button = %Player2/Buttons/SkipButton
 
-@onready var player1_status_notification = $UI/Player1/StatusNotification
-@onready var player2_status_notification = $UI/Player2/StatusNotification
+@onready var player1_status_notification = %Player1/StatusNotification
+@onready var player2_status_notification = %Player2/StatusNotification
 
-@onready var player1_status_label: Label = $UI/Player1/TimeStatusLabel
-@onready var player2_status_label: Label = $UI/Player2/TimeStatusLabel
+@onready var player1_status_label: Label = %Player1/TimeStatusLabel
+@onready var player2_status_label: Label = %Player2/TimeStatusLabel
 
-@onready var player1_movement_points = $UI/Player1/PlayerInfo/MovementPoints
-@onready var player2_movement_points = $UI/Player2/PlayerInfo/MovementPoints
+@onready var player1_movement_points = %Player1/PlayerInfo/MovementPoints
+@onready var player2_movement_points = %Player2/PlayerInfo/MovementPoints
 
-@onready var player2_error_points: Label = $UI/Player2/PlayerInfo/ErrorPoints
-@onready var player1_error_points: Label = $UI/Player1/PlayerInfo/ErrorPoints
+@onready var player2_error_points: Label = %Player2/PlayerInfo/ErrorPoints
+@onready var player1_error_points: Label = %Player1/PlayerInfo/ErrorPoints
 
 @onready var game_handle = $".."
 
-@onready var dice_result = $UI/DiceResult
+@onready var dice_result = %DiceResult
 @onready var notification_layer = $UI/NotificationLayer
 
 @onready var bot: Node = $Bot
@@ -78,6 +80,7 @@ func _ready():
 	
 	update_player_buttons()
 	update_time_status()
+	update_visible_player()
 	
 	player1_movement_points.text = "Điểm: 0"
 	player2_movement_points.text = "Điểm: 0"
@@ -170,12 +173,13 @@ func switch_player():
 		print("Sau khi đổi lượt: ", player_name)
 	
 	update_player_buttons()
-	update_player_layers()
+	#eupdate_player_layers()
+	update_visible_player()
 	 # Reset TimeBar của người chơi mới
 	if current_player == Globals.COLORS.WHITE:
-		$UI/Player1/TimeRow/TimeBarContainer/TimeBar.value = 40
+		%Player1/TimeRow/TimeBarContainer/TimeBar.value = 40
 	else:
-		$UI/Player2/TimeRow/TimeBarContainer/TimeBar.value = 40
+		%Player2/TimeRow/TimeBarContainer/TimeBar.value = 40
 
 	# Bắt đầu lại Timer cho lượt mới
 	timer_max_time = timer.MOVEMENT_TIME
@@ -272,18 +276,18 @@ func update_player_buttons():
 		player2_roll_button.modulate.a = 0.5
 		player2_skip_button.modulate.a = 0.5
 
-func update_player_layers():
-	if current_player == Globals.COLORS.WHITE:
-		$UI/Player2Layer.modulate.a = 1.0
-		$UI/Player1Layer.modulate.a = 0.35
-	else:
-		$UI/Player2Layer.modulate.a = 0.35
-		$UI/Player1Layer.modulate.a = 1.0
+#func update_player_layers():
+	#if current_player == Globals.COLORS.WHITE:
+		#%Player2Layer.modulate.a = 1.0
+		#%Player1Layer.modulate.a = 0.35
+	#else:
+		#%Player2Layer.modulate.a = 0.35
+		#%Player1Layer.modulate.a = 1.0
 
 func update_time_status():
 	# Luôn xóa trạng thái cũ trước
-	$UI/Player1/TimeStatusLabel.text = ""
-	$UI/Player2/TimeStatusLabel.text = ""
+	%Player1/TimeStatusLabel.text = ""
+	%Player2/TimeStatusLabel.text = ""
 
 	# Chưa tung xúc xắc lần đầu
 	if first_roll:
@@ -305,24 +309,24 @@ func update_time_status():
 		if reserve_selected:
 
 			if current_player == Globals.COLORS.WHITE:
-				$UI/Player1/TimeStatusLabel.text = "🔃 Người chơi đang chuẩn bị thay quân"
+				%Player1/TimeStatusLabel.text = "🔃 Người chơi đang chuẩn bị thay quân"
 			else:
 				if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
-					$UI/Player2/TimeStatusLabel.text = "🔃 Bot đang chuẩn bị thay quân"
+					%Player2/TimeStatusLabel.text = "🔃 Bot đang chuẩn bị thay quân"
 				else:
-					$UI/Player2/TimeStatusLabel.text = "🔃 Người chơi 2 đang chuẩn bị thay quân"
+					%Player2/TimeStatusLabel.text = "🔃 Người chơi 2 đang chuẩn bị thay quân"
 
 		# Movement bình thường
 		else:
 
 			if current_player == Globals.COLORS.WHITE:
-				$UI/Player1/TimeStatusLabel.text = "⌛ Người chơi đang di chuyển"
+				%Player1/TimeStatusLabel.text = "⌛ Người chơi đang di chuyển"
 
 			else:
 				if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
-					$UI/Player2/TimeStatusLabel.text = "⌛ Bot đang di chuyển"
+					%Player2/TimeStatusLabel.text = "⌛ Bot đang di chuyển"
 				else:
-					$UI/Player2/TimeStatusLabel.text = "⌛ Người chơi 2 đang di chuyển"
+					%Player2/TimeStatusLabel.text = "⌛ Người chơi 2 đang di chuyển"
 
 	# =========================
 	# PHASE ROLL
@@ -330,13 +334,13 @@ func update_time_status():
 	elif phase == Globals.PHASE.ROLL:
 
 		if current_player == Globals.COLORS.WHITE:
-			$UI/Player1/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
+			%Player1/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
 
 		else:
 			if Globals.player_2_type == Globals.PLAYER_2_TYPE.AI:
-				$UI/Player2/TimeStatusLabel.text = " 🎲 Chuẩn bị tung xúc xắc"
+				%Player2/TimeStatusLabel.text = " 🎲 Chuẩn bị tung xúc xắc"
 			else:
-				$UI/Player2/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
+				%Player2/TimeStatusLabel.text = "🎲 Chuẩn bị tung xúc xắc"
 
 func show_status_notification(player):
 	if player == Globals.COLORS.WHITE:
@@ -421,9 +425,9 @@ func _on_timer_finished():
 
 #func update_timer_bar():
 	#if current_player == Globals.COLORS.WHITE:
-		#$UI/Player1/TimerBar.value = timer.time_left
+		#%Player1/TimerBar.value = timer.time_left
 	#else:
-		#$UI/Player2/TimerBar.value = timer.time_left
+		#%Player2/TimerBar.value = timer.time_left
 
 func get_timer_bar_value():
 	if timer_max_time <= 0:
@@ -444,16 +448,16 @@ func _process(_delta):
 		var time_seconds = get_timer_display_seconds()
 
 		if current_player == Globals.COLORS.WHITE:
-			$UI/Player1/TimeRow/TimeBarContainer/TimeBar.value = bar_value
-			$UI/Player1/TimeRow/TimeLabel.text = str(time_seconds) + "s"
+			%Player1/TimeRow/TimeBarContainer/TimeBar.value = bar_value
+			%Player1/TimeRow/TimeLabel.text = str(time_seconds) + "s"
 
-			$UI/Player2/TimeRow/TimeLabel.text = "0s"
+			%Player2/TimeRow/TimeLabel.text = "0s"
 
 		else:
-			$UI/Player2/TimeRow/TimeBarContainer/TimeBar.value = bar_value
-			$UI/Player2/TimeRow/TimeLabel.text = str(time_seconds) + "s"
+			%Player2/TimeRow/TimeBarContainer/TimeBar.value = bar_value
+			%Player2/TimeRow/TimeLabel.text = str(time_seconds) + "s"
 
-			$UI/Player1/TimeRow/TimeLabel.text = "0s"
+			%Player1/TimeRow/TimeLabel.text = "0s"
 
 func check_no_action():
 	if not has_moved_this_turn and not has_swapped_this_turn:
@@ -586,3 +590,7 @@ func restart_game():
 func back_to_menu():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scenes/TestMenu.tscn")
+
+func update_visible_player() -> void:
+	%Player1.visible = (current_player == Globals.COLORS.WHITE)
+	%Player2.visible = (current_player == Globals.COLORS.BLACK)

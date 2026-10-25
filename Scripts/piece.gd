@@ -1,3 +1,5 @@
+#luật quân và scan hướng đi của từng quân
+
 extends Node2D
 
 @onready var sprite = $Sprite2D

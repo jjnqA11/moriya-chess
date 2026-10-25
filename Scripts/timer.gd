@@ -1,3 +1,5 @@
+# đếm thời gian, đếm xong nó ném tín hiệu sang cho game.gd
+
 extends Timer
 	
 const MOVEMENT_TIME = 30

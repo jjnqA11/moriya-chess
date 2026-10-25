@@ -1,6 +1,25 @@
 [gd_scene format=3 uid="uid://b2o3mfyp37kb2"]
 
 [ext_resource type="Script" uid="uid://cf4l3sj40ypf1" path="res://Scenes Scripts/testMenu.gd" id="1_dkegk"]
+[ext_resource type="PackedScene" uid="uid://dk5sin2kk45xr" path="res://Scenes/ParallaxBackground.tscn" id="2_mwldk"]
+[ext_resource type="Texture2D" uid="uid://dhlaqxp7mgqsp" path="res://Assets/Images/title.png" id="3_ncg40"]
+[ext_resource type="Shader" uid="uid://b0wkp1m4bxmdg" path="res://Scenes/TestMenu.gdshader" id="3_ndyga"]
+[ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="4_mwldk"]
+[ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="5_mwldk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mwldk"]
+shader = ExtResource("3_ndyga")
+shader_parameter/blur = 0.5
+shader_parameter/darken = 0.25
+
+[sub_resource type="Gradient" id="Gradient_ncg40"]
+colors = PackedColorArray(1, 1, 1, 0.627451, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jpyye"]
+gradient = SubResource("Gradient_ncg40")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="TestMenu" type="Control" unique_id=1843199306]
 layout_mode = 3
@@ -11,6 +30,32 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dkegk")
 
+[node name="MainBackground" parent="." unique_id=2141826825 instance=ExtResource("2_mwldk")]
+layout_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=557019099]
+material = SubResource("ShaderMaterial_mwldk")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="TextureRect" parent="." unique_id=1964595091]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -382.0
+offset_top = 26.0
+offset_right = 382.0
+offset_bottom = 198.0
+grow_horizontal = 2
+texture = ExtResource("3_ncg40")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=1063454300]
 layout_mode = 1
 anchors_preset = 8
@@ -18,50 +63,135 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -85.0
-offset_top = -46.5
-offset_right = 85.0
-offset_bottom = 46.5
+offset_left = -150.0
+offset_top = -74.0
+offset_right = 150.0
+offset_bottom = 242.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Title" type="Label" parent="MenuContainer" unique_id=1596113058]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Mệnh Cờ - Test"
-horizontal_alignment = 1
 
 [node name="PvEButton" type="Button" parent="MenuContainer" unique_id=237042753]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mwldk")
 theme_override_font_sizes/font_size = 24
-text = "🤖 NGƯỜI vs MÁY"
+text = "NGƯỜI vs MÁY"
+flat = true
+script = ExtResource("5_mwldk")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/PvEButton" unique_id=1940419284]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="PvPButton" type="Button" parent="MenuContainer" unique_id=31689290]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mwldk")
 theme_override_font_sizes/font_size = 24
-text = "👥 NGƯỜI vs NGƯỜI"
+text = "NGƯỜI vs NGƯỜI"
+flat = true
+script = ExtResource("5_mwldk")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/PvPButton" unique_id=1295614898]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="HowToPlayButton" type="Button" parent="MenuContainer" unique_id=822304398]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mwldk")
 theme_override_font_sizes/font_size = 24
 text = "HƯỚNG DẪN"
+flat = true
+script = ExtResource("5_mwldk")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/HowToPlayButton" unique_id=345417121]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="SettingsButton" type="Button" parent="MenuContainer" unique_id=2001945673]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mwldk")
 theme_override_font_sizes/font_size = 24
 text = "CÀI ĐẶT"
+flat = true
+script = ExtResource("5_mwldk")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/SettingsButton" unique_id=1559841326]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="ExitButton" type="Button" parent="MenuContainer" unique_id=1853571702]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mwldk")
 theme_override_font_sizes/font_size = 24
 text = "THOÁT"
+flat = true
+script = ExtResource("5_mwldk")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/ExitButton" unique_id=767870597]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [connection signal="pressed" from="MenuContainer/PvEButton" to="." method="_on_pv_e_button_pressed"]
 [connection signal="pressed" from="MenuContainer/PvPButton" to="." method="_on_pv_p_button_pressed"]
 [connection signal="pressed" from="MenuContainer/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
 [connection signal="pressed" from="MenuContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MenuContainer/ExitButton" to="." method="_on_exit_button_pressed"]

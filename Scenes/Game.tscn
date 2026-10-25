@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://bwad8maleijft"]
 
 [ext_resource type="Script" uid="uid://78xb605avn30" path="res://Scripts/game.gd" id="1_gl6un"]
+[ext_resource type="PackedScene" uid="uid://dk5sin2kk45xr" path="res://Scenes/ParallaxBackground.tscn" id="2_dahhg"]
 [ext_resource type="Script" uid="uid://cu7hipcu3k4t5" path="res://Scripts/board.gd" id="2_j5yw3"]
+[ext_resource type="Shader" uid="uid://cceg5j1r4iyd3" path="res://Scenes/GameBackground.gdshader" id="3_3so38"]
 [ext_resource type="PackedScene" uid="uid://be7mettps8ssn" path="res://Scenes/Dice.tscn" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://cgubxruem3518" path="res://Scripts/timer.gd" id="4_7lihs"]
 [ext_resource type="Texture2D" uid="uid://0lvbvd1pobqm" path="res://Assets/Dice/Dice 1-6 Light (1).png" id="4_kldst"]
@@ -10,6 +12,13 @@
 [ext_resource type="Script" uid="uid://cf0m21jk8bvfh" path="res://Scripts/bot.gd" id="8_2irst"]
 [ext_resource type="Script" uid="uid://cn14hubfjndpb" path="res://Scripts/UI Menu Scripts/pause_menu.gd" id="8_bf53h"]
 [ext_resource type="Shader" uid="uid://b8bq8c6boj2md" path="res://Shaders/blurBG.gdshader" id="9_71axn"]
+[ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="11_3cx6b"]
+[ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="12_wxwew"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpyye"]
+shader = ExtResource("3_3so38")
+shader_parameter/blur = 0.5
+shader_parameter/darken = 0.25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w01mf"]
 bg_color = Color(0.6784314, 0.6784314, 0, 0)
@@ -29,6 +38,33 @@ colors = PackedColorArray(0.90588236, 0.29803923, 0.23529412, 1, 0.94509804, 0.8
 gradient = SubResource("Gradient_7lihs")
 width = 300
 height = 23
+
+[sub_resource type="Gradient" id="Gradient_acvyw"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jpyye"]
+gradient = SubResource("Gradient_acvyw")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_wxwew"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_alh3a"]
+gradient = SubResource("Gradient_wxwew")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_alh3a"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4q8tf"]
+gradient = SubResource("Gradient_alh3a")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w01mf"]
 shader = ExtResource("9_71axn")
@@ -153,6 +189,20 @@ _data = {
 [node name="Game" type="Node2D" unique_id=1211636044]
 script = ExtResource("1_gl6un")
 
+[node name="Background" type="CanvasLayer" parent="." unique_id=1499851200]
+layer = -1
+
+[node name="MainBackground" parent="Background" unique_id=2141826825 instance=ExtResource("2_dahhg")]
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=2120975663]
+material = SubResource("ShaderMaterial_jpyye")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="Board" type="Node2D" parent="." unique_id=424315500]
 position = Vector2(50, 90)
 script = ExtResource("2_j5yw3")
@@ -190,44 +240,70 @@ offset_right = 320.0
 offset_bottom = 65.0
 mouse_filter = 0
 
-[node name="Player1" type="VBoxContainer" parent="UI" unique_id=975356603]
+[node name="DiceResult" type="TextureRect" parent="UI" unique_id=1388408821]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 700.0
-offset_top = 450.0
-offset_right = 1050.0
-offset_bottom = 589.0
+offset_left = 805.0
+offset_top = 145.0
+offset_right = 965.0
+offset_bottom = 305.0
+texture = ExtResource("4_kldst")
 
-[node name="PlayerInfo" type="HBoxContainer" parent="UI/Player1" unique_id=1505654457]
+[node name="InfoPanel" type="Panel" parent="UI" unique_id=1534050416]
+z_index = -10
+layout_mode = 0
+offset_left = 660.0
+offset_top = 395.0
+offset_right = 1110.0
+offset_bottom = 575.0
+mouse_filter = 2
+
+[node name="Player1" type="VBoxContainer" parent="UI/InfoPanel" unique_id=975356603]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -69.5
+offset_right = 175.0
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerInfo" type="HBoxContainer" parent="UI/InfoPanel/Player1" unique_id=1505654457]
 layout_mode = 2
 
-[node name="PlayerName" type="Label" parent="UI/Player1/PlayerInfo" unique_id=866097821]
+[node name="PlayerName" type="Label" parent="UI/InfoPanel/Player1/PlayerInfo" unique_id=866097821]
 layout_mode = 2
 text = "Player 1 - White 🤍"
 
-[node name="MovementPoints" type="Label" parent="UI/Player1/PlayerInfo" unique_id=292071456]
+[node name="MovementPoints" type="Label" parent="UI/InfoPanel/Player1/PlayerInfo" unique_id=292071456]
 layout_mode = 2
 
-[node name="ErrorPoints" type="Label" parent="UI/Player1/PlayerInfo" unique_id=959542366]
+[node name="ErrorPoints" type="Label" parent="UI/InfoPanel/Player1/PlayerInfo" unique_id=959542366]
 layout_mode = 2
 
-[node name="StatusNotification" type="Label" parent="UI/Player1" unique_id=1724540165]
+[node name="StatusNotification" type="Label" parent="UI/InfoPanel/Player1" unique_id=1724540165]
 layout_mode = 2
 
-[node name="TimeStatusLabel" type="Label" parent="UI/Player1" unique_id=368079600]
+[node name="TimeStatusLabel" type="Label" parent="UI/InfoPanel/Player1" unique_id=368079600]
 custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="TimeRow" type="BoxContainer" parent="UI/Player1" unique_id=206682106]
+[node name="TimeRow" type="BoxContainer" parent="UI/InfoPanel/Player1" unique_id=206682106]
 layout_mode = 2
 
-[node name="TimeBarContainer" type="Control" parent="UI/Player1/TimeRow" unique_id=1524279926]
+[node name="TimeBarContainer" type="Control" parent="UI/InfoPanel/Player1/TimeRow" unique_id=1524279926]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TimeBar" type="TextureProgressBar" parent="UI/Player1/TimeRow/TimeBarContainer" unique_id=816713462]
+[node name="TimeBar" type="TextureProgressBar" parent="UI/InfoPanel/Player1/TimeRow/TimeBarContainer" unique_id=816713462]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -237,7 +313,7 @@ step = 0.01
 value = 40.0
 texture_progress = SubResource("GradientTexture2D_71axn")
 
-[node name="PhaseDivider" type="ColorRect" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=178608210]
+[node name="PhaseDivider" type="ColorRect" parent="UI/InfoPanel/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=178608210]
 z_index = 2
 layout_mode = 1
 anchors_preset = -1
@@ -246,7 +322,7 @@ offset_left = 73.0
 offset_right = 74.0
 mouse_filter = 2
 
-[node name="RollLabel" type="Label" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=368814846]
+[node name="RollLabel" type="Label" parent="UI/InfoPanel/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=368814846]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 3.0
@@ -255,7 +331,7 @@ offset_right = 68.0
 offset_bottom = 21.0
 text = "🎲 "
 
-[node name="MovementLabel" type="Label" parent="UI/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=1109219651]
+[node name="MovementLabel" type="Label" parent="UI/InfoPanel/Player1/TimeRow/TimeBarContainer/TimeBar" unique_id=1109219651]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -267,7 +343,7 @@ text = "🚶 DI CHUYỂN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimeBackground" type="ColorRect" parent="UI/Player1/TimeRow/TimeBarContainer" unique_id=712471169]
+[node name="TimeBackground" type="ColorRect" parent="UI/InfoPanel/Player1/TimeRow/TimeBarContainer" unique_id=712471169]
 z_index = -1
 layout_mode = 1
 anchors_preset = -1
@@ -277,72 +353,71 @@ offset_right = -5.0
 mouse_filter = 2
 color = Color(0.06136909, 0.0613691, 0.06136909, 1)
 
-[node name="TimeLabel" type="Label" parent="UI/Player1/TimeRow" unique_id=429186328]
+[node name="TimeLabel" type="Label" parent="UI/InfoPanel/Player1/TimeRow" unique_id=429186328]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "40s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="UI/Player1" unique_id=259563055]
+[node name="Buttons" type="HBoxContainer" parent="UI/InfoPanel/Player1" unique_id=259563055]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="RollButton" type="Button" parent="UI/Player1/Buttons" unique_id=1672810931]
+[node name="RollButton" type="Button" parent="UI/InfoPanel/Player1/Buttons" unique_id=1672810931]
 layout_mode = 2
 text = "Tung xúc xắc"
 
-[node name="SkipButton" type="Button" parent="UI/Player1/Buttons" unique_id=153688237]
+[node name="SkipButton" type="Button" parent="UI/InfoPanel/Player1/Buttons" unique_id=153688237]
 layout_mode = 2
 text = "Bỏ qua"
 
-[node name="Player1Layer" type="Panel" parent="UI" unique_id=1534050416]
-z_index = -10
-layout_mode = 0
-offset_left = 660.0
-offset_top = 55.0
-offset_right = 1110.0
-offset_bottom = 235.0
-mouse_filter = 2
+[node name="Player2" type="VBoxContainer" parent="UI/InfoPanel" unique_id=27675358]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -69.5
+offset_right = 175.0
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Player2" type="VBoxContainer" parent="UI" unique_id=27675358]
-layout_mode = 0
-offset_left = 700.0
-offset_top = 80.0
-offset_right = 1050.0
-offset_bottom = 219.0
-
-[node name="PlayerInfo" type="HBoxContainer" parent="UI/Player2" unique_id=2102308068]
+[node name="PlayerInfo" type="HBoxContainer" parent="UI/InfoPanel/Player2" unique_id=2102308068]
 layout_mode = 2
 
-[node name="PlayerName" type="Label" parent="UI/Player2/PlayerInfo" unique_id=985600952]
+[node name="PlayerName" type="Label" parent="UI/InfoPanel/Player2/PlayerInfo" unique_id=985600952]
 layout_mode = 2
 text = "Player 2 - Black ⬛"
 
-[node name="MovementPoints" type="Label" parent="UI/Player2/PlayerInfo" unique_id=1073017686]
+[node name="MovementPoints" type="Label" parent="UI/InfoPanel/Player2/PlayerInfo" unique_id=1073017686]
 layout_mode = 2
 
-[node name="ErrorPoints" type="Label" parent="UI/Player2/PlayerInfo" unique_id=1810404215]
+[node name="ErrorPoints" type="Label" parent="UI/InfoPanel/Player2/PlayerInfo" unique_id=1810404215]
 layout_mode = 2
 
-[node name="StatusNotification" type="Label" parent="UI/Player2" unique_id=1089249881]
+[node name="StatusNotification" type="Label" parent="UI/InfoPanel/Player2" unique_id=1089249881]
 layout_mode = 2
 
-[node name="TimeStatusLabel" type="Label" parent="UI/Player2" unique_id=338325626]
+[node name="TimeStatusLabel" type="Label" parent="UI/InfoPanel/Player2" unique_id=338325626]
 custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="TimeRow" type="BoxContainer" parent="UI/Player2" unique_id=1173537785]
+[node name="TimeRow" type="BoxContainer" parent="UI/InfoPanel/Player2" unique_id=1173537785]
 layout_mode = 2
 
-[node name="TimeBarContainer" type="Control" parent="UI/Player2/TimeRow" unique_id=1042862992]
+[node name="TimeBarContainer" type="Control" parent="UI/InfoPanel/Player2/TimeRow" unique_id=1042862992]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TimeBar" type="TextureProgressBar" parent="UI/Player2/TimeRow/TimeBarContainer" unique_id=1458061408]
+[node name="TimeBar" type="TextureProgressBar" parent="UI/InfoPanel/Player2/TimeRow/TimeBarContainer" unique_id=1458061408]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -353,7 +428,7 @@ step = 0.01
 value = 40.0
 texture_progress = SubResource("GradientTexture2D_71axn")
 
-[node name="PhaseDivider" type="ColorRect" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=1934099994]
+[node name="PhaseDivider" type="ColorRect" parent="UI/InfoPanel/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=1934099994]
 z_index = 2
 layout_mode = 1
 anchors_preset = -1
@@ -362,7 +437,7 @@ offset_left = 73.0
 offset_right = 74.0
 mouse_filter = 2
 
-[node name="RollLabel" type="Label" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=766846403]
+[node name="RollLabel" type="Label" parent="UI/InfoPanel/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=766846403]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 3.0
@@ -371,7 +446,7 @@ offset_right = 68.0
 offset_bottom = 21.0
 text = "🎲 "
 
-[node name="MovementLabel" type="Label" parent="UI/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=541134844]
+[node name="MovementLabel" type="Label" parent="UI/InfoPanel/Player2/TimeRow/TimeBarContainer/TimeBar" unique_id=541134844]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -383,7 +458,7 @@ text = "🚶 DI CHUYỂN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimeBackground" type="ColorRect" parent="UI/Player2/TimeRow/TimeBarContainer" unique_id=1617601393]
+[node name="TimeBackground" type="ColorRect" parent="UI/InfoPanel/Player2/TimeRow/TimeBarContainer" unique_id=1617601393]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -391,41 +466,24 @@ anchor_bottom = 1.0
 offset_right = -5.0
 color = Color(0, 0, 0, 1)
 
-[node name="TimeLabel" type="Label" parent="UI/Player2/TimeRow" unique_id=944326476]
+[node name="TimeLabel" type="Label" parent="UI/InfoPanel/Player2/TimeRow" unique_id=944326476]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "40s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="UI/Player2" unique_id=1436342520]
+[node name="Buttons" type="HBoxContainer" parent="UI/InfoPanel/Player2" unique_id=1436342520]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="RollButton" type="Button" parent="UI/Player2/Buttons" unique_id=1880894446]
+[node name="RollButton" type="Button" parent="UI/InfoPanel/Player2/Buttons" unique_id=1880894446]
 layout_mode = 2
 text = "Tung xúc xắc"
 
-[node name="SkipButton" type="Button" parent="UI/Player2/Buttons" unique_id=223967728]
+[node name="SkipButton" type="Button" parent="UI/InfoPanel/Player2/Buttons" unique_id=223967728]
 layout_mode = 2
 text = "Bỏ qua"
-
-[node name="Player2Layer" type="Panel" parent="UI" unique_id=582827608]
-z_index = -10
-layout_mode = 0
-offset_left = 660.0
-offset_top = 430.0
-offset_right = 1110.0
-offset_bottom = 610.0
-mouse_filter = 2
-
-[node name="DiceResult" type="TextureRect" parent="UI" unique_id=1388408821]
-layout_mode = 0
-offset_left = 700.0
-offset_top = 250.0
-offset_right = 860.0
-offset_bottom = 410.0
-texture = ExtResource("4_kldst")
 
 [node name="NotificationLayer" type="Control" parent="UI" unique_id=1427546844]
 layout_mode = 1
@@ -474,7 +532,6 @@ grow_horizontal = 0
 text = "⏸"
 
 [node name="PauseMenu" type="Control" parent="UI" unique_id=1438334485]
-visible = false
 z_index = 20
 layout_mode = 1
 anchors_preset = 15
@@ -535,19 +592,61 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
-text = "Tiếp tục "
+theme_override_fonts/font = ExtResource("11_3cx6b")
+theme_override_font_sizes/font_size = 27
+text = "Tiếp tục"
+script = ExtResource("12_wxwew")
+
+[node name="Glow" type="TextureRect" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer/ResumeButton" unique_id=980940929]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
 
 [node name="RestartButton" type="Button" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer" unique_id=324024487]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
-text = " Chơi lại    "
+theme_override_fonts/font = ExtResource("11_3cx6b")
+theme_override_font_sizes/font_size = 27
+text = " Chơi lại"
+script = ExtResource("12_wxwew")
+
+[node name="Glow" type="TextureRect" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer/RestartButton" unique_id=2056785021]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_alh3a")
 
 [node name="MenuButton" type="Button" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer" unique_id=630536557]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("11_3cx6b")
+theme_override_font_sizes/font_size = 27
 text = "Về Menu"
+script = ExtResource("12_wxwew")
+
+[node name="Glow" type="TextureRect" parent="UI/PauseMenu/PausePanel/MainContainer/ButtonContainer/MenuButton" unique_id=448286219]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_4q8tf")
 
 [node name="RestartBlur" type="ColorRect" parent="UI/PauseMenu" unique_id=528621440]
 visible = false

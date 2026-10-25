@@ -1,6 +1,25 @@
 [gd_scene format=3 uid="uid://bi4dyxeet4m03"]
 
 [ext_resource type="Script" uid="uid://by6uq08bf3x8i" path="res://Scenes Scripts/difficultyMenu.gd" id="1_s2ra4"]
+[ext_resource type="Texture2D" uid="uid://c44ccjl4o32mj" path="res://Assets/Images/background.png" id="2_5jaoe"]
+[ext_resource type="PackedScene" uid="uid://dk5sin2kk45xr" path="res://Scenes/ParallaxBackground.tscn" id="2_a0yor"]
+[ext_resource type="Shader" uid="uid://b0wkp1m4bxmdg" path="res://Scenes/TestMenu.gdshader" id="3_faibf"]
+[ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="3_t4r5o"]
+[ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="4_5hner"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3om4m"]
+shader = ExtResource("3_faibf")
+shader_parameter/blur = 0.5
+shader_parameter/darken = 0.25
+
+[sub_resource type="Gradient" id="Gradient_5hner"]
+colors = PackedColorArray(1, 1, 1, 0.627451, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jpyye"]
+gradient = SubResource("Gradient_5hner")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="DifficultyMenu" type="Control" unique_id=1301231385]
 layout_mode = 3
@@ -10,6 +29,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_s2ra4")
+
+[node name="MainBackground" parent="." unique_id=2141826825 instance=ExtResource("2_a0yor")]
+layout_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1487299367]
+material = SubResource("ShaderMaterial_3om4m")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="." unique_id=371774996]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5jaoe")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=839650974]
 layout_mode = 1
@@ -36,40 +79,151 @@ vertical_alignment = 1
 [node name="EasyButton" type="Button" parent="MenuContainer" unique_id=1664654224]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "🟢 DỄ"
+text = "DỄ"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/EasyButton" unique_id=1625336395]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="MediumButton" type="Button" parent="MenuContainer" unique_id=302316618]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "🟡 TRUNG BÌNH"
+text = "TRUNG BÌNH"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/MediumButton" unique_id=1296602844]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="HardButton" type="Button" parent="MenuContainer" unique_id=1950935150]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "🔴 KHÓ"
+text = "KHÓ"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/HardButton" unique_id=1693872146]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="InsaneButton" type="Button" parent="MenuContainer" unique_id=899117555]
 visible = false
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "🟣 INSANE - Đang phát triển"
+text = "INSANE - Đang phát triển"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/InsaneButton" unique_id=474439127]
+visible = false
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="ExtremeButton" type="Button" parent="MenuContainer" unique_id=531369065]
 visible = false
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "💀 EXTREME - Đang phát triển"
+text = "EXTREME - Đang phát triển"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/ExtremeButton" unique_id=1639071193]
+visible = false
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [node name="BackButton" type="Button" parent="MenuContainer" unique_id=1874077624]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_constants/align_to_largest_stylebox = 0
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
-text = "← QUAY LẠI"
+text = "QUAY LẠI"
+flat = true
+script = ExtResource("4_5hner")
+
+[node name="Glow" type="TextureRect" parent="MenuContainer/BackButton" unique_id=929143791]
+show_behind_parent = true
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jpyye")
+expand_mode = 1
 
 [connection signal="pressed" from="MenuContainer/EasyButton" to="." method="_on_easy_button_pressed"]
 [connection signal="pressed" from="MenuContainer/MediumButton" to="." method="_on_medium_button_pressed"]

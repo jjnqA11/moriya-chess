@@ -1,3 +1,5 @@
+# xử lý xúc xắc ngẫu nhiên, cái này để game.gd gọi vào dùng th
+
 extends Node2D
 
 var value: int = 0

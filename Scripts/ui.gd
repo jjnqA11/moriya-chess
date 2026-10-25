@@ -1,3 +1,5 @@
+# Tạo quân xử lý dự bị
+
 extends Control
 
 const CELL_SIZE = 55

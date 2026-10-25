@@ -1,3 +1,5 @@
+# Tạo Texture
+
 extends Node2D
 
 const BOARD_WIDTH = 6
@@ -5,6 +7,8 @@ const BOARD_HEIGHT = 8
 
 const BOARD_RESERVE_WIDTH = 1
 const BOARD_RESERVE_HEIGHT = 3
+
+var bg_offset := Vector2.ZERO
 
 const DICE_TEXTURES = {
 	1: preload("res://Assets/Dice/Dice 1-6 Light (1).png"),
