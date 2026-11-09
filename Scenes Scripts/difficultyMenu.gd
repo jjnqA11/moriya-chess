@@ -1,5 +1,24 @@
 extends Control
 
+@onready var title: Label = $MenuContainer/Title
+@onready var easy_button: Button = $MenuContainer/EasyButton
+@onready var medium_button: Button = $MenuContainer/MediumButton
+@onready var hard_button: Button = $MenuContainer/HardButton
+@onready var back_button: Button = $MenuContainer/BackButton
+
+func _ready() -> void:
+	_update_localized_texts()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		_update_localized_texts()
+		
+func _update_localized_texts() -> void:
+	title.text = tr("MENU_TITLE_DIFFICULTY")
+	easy_button.text = tr("EASY_BUTTON")
+	medium_button.text = tr("MEDIUM_BUTTON")
+	hard_button.text = tr("HARD_BUTTON")
+	back_button.text = tr("BACK_BUTTON")
 
 func _on_easy_button_pressed() -> void:
 	Globals.ai_difficulty = Globals.AI_DIFFICULTY.EASY

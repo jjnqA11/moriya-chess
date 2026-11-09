@@ -4,12 +4,16 @@ extends Control
 @onready var resume_button = $PausePanel/MainContainer/ButtonContainer/ResumeButton
 @onready var pause_panel = $PausePanel
 
+@onready var pause_title: Label = $PausePanel/MainContainer/PauseTitle
+
+@onready var confirm_label: Label = $RestartConfirm/MainContainer/ConfirmLabel
 @onready var restart_button = $PausePanel/MainContainer/ButtonContainer/RestartButton
 @onready var restart_confirm = $RestartConfirm
 @onready var confirm_restart_button = $RestartConfirm/MainContainer/ButtonContainer/ConfirmRestartButton
 @onready var cancel_restart_button = $RestartConfirm/MainContainer/ButtonContainer/CancelRestartButton
 @onready var restart_blur = $RestartBlur
 
+@onready var confirm_menu_label: Label = $MenuConfirm/MainContainer/ConfirmLabel
 @onready var back_to_menu_button = $PausePanel/MainContainer/ButtonContainer/MenuButton
 @onready var menu_confirm = $MenuConfirm
 @onready var confirm_menu_button = $MenuConfirm/MainContainer/ButtonContainer/ConfirmMenuButton
@@ -33,7 +37,9 @@ func _ready():
 	back_to_menu_button.pressed.connect(show_menu_confirm)
 	confirm_menu_button.pressed.connect(confirm_back_to_menu)
 	cancel_menu_button.pressed.connect(cancel_back_to_menu)
-
+	
+	_update_localized_texts()
+	
 	menu_confirm.hide()
 	restart_blur.hide()
 
@@ -45,6 +51,17 @@ func _unhandled_input(event):
 		else:
 			open_pause()
 
+func _update_localized_texts() -> void:
+	pause_title.text = tr("PAUSE_BUTTON")
+	resume_button.text = tr("RESUME_BUTTON")
+	
+	restart_button.text = tr("RESTART_BUTTON")
+	confirm_label.text = tr("RESTART_CONFIRM")
+	cancel_restart_button.text = tr("CANCEL_RESTART")
+	
+	back_to_menu_button.text = tr("RETURN_TO_MENU")
+	confirm_menu_label.text = tr("CONFIRM_MENU_LABEL")
+	cancel_menu_button.text = tr("CANCEL_MENU")
 
 func open_pause():
 	visible = true

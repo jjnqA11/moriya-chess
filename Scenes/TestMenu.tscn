@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cf4l3sj40ypf1" path="res://Scenes Scripts/testMenu.gd" id="1_dkegk"]
 [ext_resource type="PackedScene" uid="uid://dk5sin2kk45xr" path="res://Scenes/ParallaxBackground.tscn" id="2_mwldk"]
-[ext_resource type="Texture2D" uid="uid://dhlaqxp7mgqsp" path="res://Assets/Images/title.png" id="3_ncg40"]
 [ext_resource type="Shader" uid="uid://b0wkp1m4bxmdg" path="res://Scenes/TestMenu.gdshader" id="3_ndyga"]
 [ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="4_mwldk"]
+[ext_resource type="Texture2D" uid="uid://dijkgwrphclnh" path="res://Assets/Images/menh_co.png" id="4_ndyga"]
 [ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="5_mwldk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mwldk"]
@@ -47,12 +47,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -382.0
-offset_top = 26.0
-offset_right = 382.0
-offset_bottom = 198.0
+offset_left = -383.0
+offset_top = 82.0
+offset_right = 381.0
+offset_bottom = 254.0
 grow_horizontal = 2
-texture = ExtResource("3_ncg40")
+texture = ExtResource("4_ndyga")
 expand_mode = 1
 stretch_mode = 5
 
