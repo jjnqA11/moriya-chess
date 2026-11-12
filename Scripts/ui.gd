@@ -12,7 +12,7 @@ const SPRITE_SIZE = 34
 
 const PIECE_TEXTURE = preload("res://Assets/Chess/32x32 Chess Detailed (SpriteSheet).png")
 const LOCK_TEXTURE = preload("res://Assets/PadLock/Small Oval Padlock - GOLD - 0000.png")	
-const RESERVE_PIECES = [
+var RESERVE_PIECES: Array = [
 	Globals.PIECE_TYPES.ROOK,
 	Globals.PIECE_TYPES.BISHOP,
 	Globals.PIECE_TYPES.QUEEN

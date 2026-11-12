@@ -6,14 +6,199 @@
 [ext_resource type="Shader" uid="uid://cceg5j1r4iyd3" path="res://Scenes/GameBackground.gdshader" id="3_3so38"]
 [ext_resource type="PackedScene" uid="uid://be7mettps8ssn" path="res://Scenes/Dice.tscn" id="3_j5yw3"]
 [ext_resource type="Script" uid="uid://cgubxruem3518" path="res://Scripts/timer.gd" id="4_7lihs"]
+[ext_resource type="Texture2D" uid="uid://4813trl7cwlu" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD1.png" id="4_acvyw"]
 [ext_resource type="Texture2D" uid="uid://0lvbvd1pobqm" path="res://Assets/Dice/Dice 1-6 Light (1).png" id="4_kldst"]
+[ext_resource type="Texture2D" uid="uid://bhohhiico6v52" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD2.png" id="5_a05uw"]
+[ext_resource type="Script" uid="uid://i5du2usx14qw" path="res://Scenes/background_a.gd" id="5_alh3a"]
 [ext_resource type="Script" uid="uid://px3a6uu0q1qo" path="res://Scripts/notification_layer.gd" id="5_b2bpf"]
 [ext_resource type="Script" uid="uid://dskedjsvx7rgf" path="res://Scripts/ui.gd" id="5_fgofq"]
+[ext_resource type="Texture2D" uid="uid://t0c7gka1m3rh" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD3.png" id="6_n2ugt"]
+[ext_resource type="Texture2D" uid="uid://cpin78uyogjgu" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD4.png" id="7_n24vg"]
 [ext_resource type="Script" uid="uid://cf0m21jk8bvfh" path="res://Scripts/bot.gd" id="8_2irst"]
 [ext_resource type="Script" uid="uid://cn14hubfjndpb" path="res://Scripts/UI Menu Scripts/pause_menu.gd" id="8_bf53h"]
+[ext_resource type="Texture2D" uid="uid://ci24u06dch26s" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD5.png" id="8_ym08v"]
+[ext_resource type="Texture2D" uid="uid://dq8eiytd3vfef" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD6.png" id="9_8ekww"]
 [ext_resource type="Shader" uid="uid://b8bq8c6boj2md" path="res://Shaders/blurBG.gdshader" id="9_71axn"]
+[ext_resource type="Texture2D" uid="uid://cubwjg1mdh44q" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD7.png" id="10_dwhu0"]
 [ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="11_3cx6b"]
+[ext_resource type="Texture2D" uid="uid://bcsmxvoxfsoks" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD8.png" id="11_nojon"]
+[ext_resource type="Texture2D" uid="uid://ddbgeaerv1q80" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD9.png" id="12_pc5hm"]
 [ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="12_wxwew"]
+[ext_resource type="Texture2D" uid="uid://8t5y47265rm1" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD10.png" id="13_dgxei"]
+[ext_resource type="Texture2D" uid="uid://cy0412vxidpb" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD11.png" id="14_7edvx"]
+[ext_resource type="Texture2D" uid="uid://ddgge3yqcqhcb" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD12.png" id="15_w61tf"]
+[ext_resource type="Texture2D" uid="uid://wg4wc4mwnftl" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD13.png" id="16_a8bb1"]
+[ext_resource type="Texture2D" uid="uid://lk7yadnm7wsh" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD14.png" id="17_5eiyn"]
+[ext_resource type="Texture2D" uid="uid://cnuhkwlj6x3q0" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD15.png" id="18_8eewk"]
+[ext_resource type="Texture2D" uid="uid://byjwyn6pvnk3g" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD16.png" id="19_ahn08"]
+[ext_resource type="Texture2D" uid="uid://duw6hshvy2gg3" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD17.png" id="20_455of"]
+[ext_resource type="Texture2D" uid="uid://d3l4j54ntk0ut" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD18.png" id="21_a8kki"]
+[ext_resource type="Texture2D" uid="uid://c11bbs52x6fxa" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD19.png" id="22_6avb6"]
+[ext_resource type="Texture2D" uid="uid://b1m1jqllxe1n5" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD20.png" id="23_fxoop"]
+[ext_resource type="Texture2D" uid="uid://ddg7mtbest4x7" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD21.png" id="24_3nchu"]
+[ext_resource type="Texture2D" uid="uid://cleg3reu44k6m" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD22.png" id="25_fexxs"]
+[ext_resource type="Texture2D" uid="uid://bfjnixnbomh5l" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD23.png" id="26_72s1t"]
+[ext_resource type="Texture2D" uid="uid://dgqt3hh15yauf" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD24.png" id="27_rhknm"]
+[ext_resource type="Texture2D" uid="uid://bcix055hjvj3e" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD25.png" id="28_kfbds"]
+[ext_resource type="Texture2D" uid="uid://crk0haf8h3ait" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD26.png" id="29_xp5l2"]
+[ext_resource type="Texture2D" uid="uid://bfwxarlv73aeo" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD27.png" id="30_3p6c0"]
+[ext_resource type="Texture2D" uid="uid://d2y5ee0d1oqpk" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD28.png" id="31_1kkci"]
+[ext_resource type="Texture2D" uid="uid://r1yb2ysctxst" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD29.png" id="32_dawtf"]
+[ext_resource type="Texture2D" uid="uid://devaey6km8yer" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD30.png" id="33_icxu3"]
+[ext_resource type="Texture2D" uid="uid://cpecxn57mxr1y" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD31.png" id="34_t7v0h"]
+[ext_resource type="Texture2D" uid="uid://b3ifxx7v4eplw" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD32.png" id="35_adeab"]
+[ext_resource type="Texture2D" uid="uid://djtfyv4m003tf" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD33.png" id="36_u7tyq"]
+[ext_resource type="Texture2D" uid="uid://t84op1bmp1bq" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD34.png" id="37_31hd8"]
+[ext_resource type="Texture2D" uid="uid://pj77ntliqqjt" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD35.png" id="38_wv54p"]
+[ext_resource type="Texture2D" uid="uid://cq7uimaxelyuc" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD36.png" id="39_bxgab"]
+[ext_resource type="Texture2D" uid="uid://cbxwlcbnjev7r" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD37.png" id="40_5wgas"]
+[ext_resource type="Texture2D" uid="uid://c53h7qikmr6na" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD38.png" id="41_8tnk5"]
+[ext_resource type="Texture2D" uid="uid://5g6hfy4dyuif" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD39.png" id="42_rfssg"]
+[ext_resource type="Texture2D" uid="uid://y5jjwglmwsxm" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD40.png" id="43_c008f"]
+[ext_resource type="Texture2D" uid="uid://mf40turis2r8" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD41.png" id="44_2h8s2"]
+[ext_resource type="Texture2D" uid="uid://bgmr1higj1w0n" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD42.png" id="45_gbjl2"]
+[ext_resource type="Texture2D" uid="uid://dsym6p5klu241" path="res://Assets/Images/Panorama2/rainyByWindow_FullHD43.png" id="46_7ldm1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q8tf"]
+atlas = ExtResource("4_acvyw")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h8moh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q8tf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_a05uw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n2ugt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_n24vg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ym08v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_8ekww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dwhu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_nojon")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_pc5hm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_dgxei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_7edvx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_w61tf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_a8bb1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_5eiyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_8eewk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_ahn08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_455of")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_a8kki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_6avb6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_fxoop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_3nchu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_fexxs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_72s1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_rhknm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_kfbds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_xp5l2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_3p6c0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_1kkci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_dawtf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_icxu3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_t7v0h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_adeab")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_u7tyq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_31hd8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_wv54p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_bxgab")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_5wgas")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_8tnk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_rfssg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_c008f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_2h8s2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_gbjl2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7ldm1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jpyye"]
 shader = ExtResource("3_3so38")
@@ -193,6 +378,11 @@ script = ExtResource("1_gl6un")
 layer = -1
 
 [node name="MainBackground" parent="Background" unique_id=2141826825 instance=ExtResource("2_dahhg")]
+
+[node name="BackgroundA" type="AnimatedSprite2D" parent="Background" unique_id=1599729675]
+sprite_frames = SubResource("SpriteFrames_h8moh")
+frame_progress = 0.24180895
+script = ExtResource("5_alh3a")
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=2120975663]
 material = SubResource("ShaderMaterial_jpyye")
@@ -532,6 +722,7 @@ grow_horizontal = 0
 text = "⏸"
 
 [node name="PauseMenu" type="Control" parent="UI" unique_id=1438334485]
+visible = false
 z_index = 20
 layout_mode = 1
 anchors_preset = 15
@@ -697,6 +888,7 @@ theme_override_constants/separation = 20
 
 [node name="ConfirmLabel" type="Label" parent="UI/PauseMenu/RestartConfirm/MainContainer" unique_id=57813268]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_3cx6b")
 theme_override_font_sizes/font_size = 30
 text = "Chơi lại?"
 horizontal_alignment = 1
@@ -709,11 +901,13 @@ alignment = 1
 [node name="ConfirmRestartButton" type="Button" parent="UI/PauseMenu/RestartConfirm/MainContainer/ButtonContainer" unique_id=1438102703]
 custom_minimum_size = Vector2(120, 45)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_3cx6b")
 text = "OK"
 
 [node name="CancelRestartButton" type="Button" parent="UI/PauseMenu/RestartConfirm/MainContainer/ButtonContainer" unique_id=1636158777]
 custom_minimum_size = Vector2(120, 45)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_3cx6b")
 text = "KO"
 
 [node name="MenuConfirm" type="Panel" parent="UI/PauseMenu" unique_id=567788483]
@@ -748,6 +942,7 @@ grow_vertical = 2
 
 [node name="ConfirmLabel" type="Label" parent="UI/PauseMenu/MenuConfirm/MainContainer" unique_id=619370477]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("11_3cx6b")
 theme_override_font_sizes/font_size = 30
 text = "Về menu?"
 horizontal_alignment = 1
@@ -761,12 +956,14 @@ theme_override_constants/separation = 15
 custom_minimum_size = Vector2(120, 45)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("11_3cx6b")
 text = "OK"
 
 [node name="CancelMenuButton" type="Button" parent="UI/PauseMenu/MenuConfirm/MainContainer/ButtonContainer" unique_id=1036903654]
 custom_minimum_size = Vector2(120, 45)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("11_3cx6b")
 text = "Hủy"
 
 [node name="GameOver" type="Control" parent="UI" unique_id=1329385263]

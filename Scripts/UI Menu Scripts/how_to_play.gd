@@ -40,7 +40,12 @@ func _ready() -> void:
 	phase_image_container.hide()
 	reserve_tutorial.hide()
 	update_tutorial_text()
+	_update_localized_texts()
 	next_button.pressed.connect(_on_next_button_pressed)
+
+func _update_localized_texts() -> void:
+	back_button.text = tr("BACK_BUTTON")
+	next_button.text = tr("NEXT_BUTTON")
 	
 #func _input(event):
 	#if event is InputEventMouseButton:

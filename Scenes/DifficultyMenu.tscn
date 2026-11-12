@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://by6uq08bf3x8i" path="res://Scenes Scripts/difficultyMenu.gd" id="1_s2ra4"]
 [ext_resource type="Texture2D" uid="uid://c44ccjl4o32mj" path="res://Assets/Images/background.png" id="2_5jaoe"]
 [ext_resource type="PackedScene" uid="uid://dk5sin2kk45xr" path="res://Scenes/ParallaxBackground.tscn" id="2_a0yor"]
+[ext_resource type="Texture2D" uid="uid://yi1ur0pbpxc2" path="res://Assets/Images/Panorama/panorama_5.png" id="3_3om4m"]
 [ext_resource type="Shader" uid="uid://b0wkp1m4bxmdg" path="res://Scenes/TestMenu.gdshader" id="3_faibf"]
 [ext_resource type="FontFile" uid="uid://iyeglmdqpkge" path="res://Assets/Fonts/VVMAyuMincho-Regular.ttf" id="3_t4r5o"]
 [ext_resource type="Script" uid="uid://dhx4llp42mpba" path="res://Scripts/UI Menu Scripts/button_effect.gd" id="4_5hner"]
@@ -32,6 +33,7 @@ script = ExtResource("1_s2ra4")
 
 [node name="MainBackground" parent="." unique_id=2141826825 instance=ExtResource("2_a0yor")]
 layout_mode = 1
+texture = ExtResource("3_3om4m")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1487299367]
 material = SubResource("ShaderMaterial_3om4m")
@@ -71,6 +73,7 @@ grow_vertical = 2
 [node name="Title" type="Label" parent="MenuContainer" unique_id=1376099607]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t4r5o")
 theme_override_font_sizes/font_size = 24
 text = "CHỌN ĐỘ KHÓ"
 horizontal_alignment = 1

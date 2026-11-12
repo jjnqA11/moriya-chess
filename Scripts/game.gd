@@ -116,8 +116,11 @@ func _on_roll_button_pressed(_player):
 		if has_moved_this_turn and phase != Globals.PHASE.ROLL:
 			notification_layer.show_notification("Còn điểm, chưa thể tung!\nHãy đi tiếp hoặc bấm Bỏ qua.")
 			return
-
-	var result = dice.roll()
+	
+	if dice.is_rolling:
+		return
+	timer.stop()
+	var result = await dice.roll(dice_result)
 	hide_status_notification(_player)
 	update_movement_points_ui(Globals.COLORS.BLACK if _player == Globals.COLORS.WHITE else Globals.COLORS.WHITE)
 	
@@ -155,7 +158,6 @@ func _on_roll_button_pressed(_player):
 			
 	board.deselect_piece()
 	board.ui.deselect_reserve()
-	dice_result.texture = Globals.DICE_TEXTURES[result]
 
 func start_turn():
 	has_moved_this_turn = false
@@ -404,8 +406,7 @@ func _on_timer_finished():
 		print("⏰ ROLL đã hết thời gian!")
 		print("Người chơi hết thời gian: ", current_player)
 		
-		var result = dice.roll()
-		dice_result.texture = Globals.DICE_TEXTURES[result]
+		var result = await dice.roll(dice_result)
 		
 		var next_player = Globals.COLORS.WHITE if current_player == Globals.COLORS.BLACK else Globals.COLORS.BLACK
 		update_movement_points_ui(next_player)
@@ -533,8 +534,8 @@ func finish_bot_turn():
 	
 	print("🤖 Bot đang tung xúc xắc...")
 	
-	var result = dice.roll()
-	dice_result.texture = Globals.DICE_TEXTURES[result]
+	timer.stop()
+	var result = await dice.roll(dice_result)
 	
 	update_movement_points_ui(Globals.COLORS.WHITE)
 	
