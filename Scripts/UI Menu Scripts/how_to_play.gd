@@ -1,16 +1,16 @@
 extends Control
 
-@onready var instruction_label = $TutorialPanel/MainContainer/InstructionLabel
-@onready var back_button = $BackButton
-@onready var board_tutorial = $TutorialPanel/MainContainer/BoardContainer/BoardTutorial
-@onready var highlight_cell = $TutorialPanel/MainContainer/BoardContainer/BoardTutorial/HighlightCell
-@onready var phase_image_container = $TutorialPanel/PhaseImageContainer
-@onready var full_move_image: TextureRect = $TutorialPanel/PhaseImageContainer/FullMoveImage
-@onready var move_phase_image = $TutorialPanel/PhaseImageContainer/MovePhaseImage
-@onready var dice_phase_image = $TutorialPanel/PhaseImageContainer/DicePhaseImage
-@onready var move_phase_2_image: TextureRect = $TutorialPanel/PhaseImageContainer/MovePhase2Image
-@onready var reserve_tutorial = $TutorialPanel/ReserveTutorial
-@onready var next_button: Button = $NextButton
+@onready var instruction_label = %InstructionLabel
+@onready var back_button = %BackButton
+@onready var board_tutorial = %BoardTutorial
+@onready var highlight_cell = %HighlightCell
+@onready var phase_image_container = %PhaseImageContainer
+@onready var full_move_image: TextureRect = %FullMoveImage
+@onready var move_phase_image = %MovePhaseImage
+@onready var dice_phase_image = %DicePhaseImage
+@onready var move_phase_2_image: TextureRect = %MovePhase2Imagee
+@onready var reserve_tutorial = %ReserveTutorial
+@onready var next_button: Button = %NextButton
 
 const LOCK_TEXTURE = preload("res://Assets/PadLock/Small Oval Padlock - GOLD - 0000.png")	
 const CELL_SIZE = 60

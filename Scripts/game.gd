@@ -99,6 +99,8 @@ func _ready():
 	pvp_black_menu.pressed.connect(back_to_menu)
 	pve_win_menu.pressed.connect(back_to_menu)
 	pve_lose_menu.pressed.connect(back_to_menu)
+	board.piece_captured.connect(%CapturedPanel.add_capture)
+	%ModeLabel.text = get_mode_text()
 	
 func _on_roll_button_pressed(_player):
 	
@@ -595,3 +597,9 @@ func back_to_menu():
 func update_visible_player() -> void:
 	%Player1.visible = (current_player == Globals.COLORS.WHITE)
 	%Player2.visible = (current_player == Globals.COLORS.BLACK)
+
+func get_mode_text() -> String:
+	if Globals.player_2_type == Globals.PLAYER_2_TYPE.HUMAN:
+		return "Chế độ: Người vs Người"
+	var names := ["Dễ", "Trung bình", "Khó", "Insane", "Extreme"]
+	return "Chế độ: Người vs Máy - " + names[Globals.ai_difficulty]

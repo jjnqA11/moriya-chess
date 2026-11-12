@@ -1,5 +1,7 @@
 extends Node2D
 
+signal piece_captured(color, piece_type)
+
 @export var pieces = []
 @export var movable_pieces = []
 @export var highlight_timer: Timer
@@ -355,6 +357,7 @@ func remove_piece(piece):
 		print("👑 KING ", piece.color, " BỊ ĂN!")
 		print("🏆 Người thắng: ", winner)
 		return
+	piece_captured.emit(piece.color, piece.piece_type)
 	if piece.piece_type == Globals.PIECE_TYPES.PAWN:
 		if piece.color == Globals.COLORS.BLACK:
 			black_pawns_captured += 1
