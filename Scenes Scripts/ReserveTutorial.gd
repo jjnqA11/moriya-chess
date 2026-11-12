@@ -13,7 +13,7 @@ const LOCK_TEXTURE = preload(
 	"res://Assets/PadLock/Small Oval Padlock - GOLD - 0000.png"
 )
 
-const RESERVE_PIECES = [
+var RESERVE_PIECES: Array = [
 	Globals.PIECE_TYPES.QUEEN,
 	Globals.PIECE_TYPES.BISHOP,
 	Globals.PIECE_TYPES.ROOK
