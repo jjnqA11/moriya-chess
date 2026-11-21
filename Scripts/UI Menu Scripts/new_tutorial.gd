@@ -47,128 +47,90 @@ var gif_rect: TextureRect
 
 var tutorial_steps := [
 	{
-		"title": "GIỚI THIỆU",
+		"title": "TUTORIAL_TITLE_0",
 		"use_board": false,
 		"image": "res://Assets/Images/mary_placeholder.png",
 		"segments": [
-			{
-				"text": "Chào mừng bạn đến với đấu trường!\nĐây không chỉ là một trận đấu cờ thông thường. Để giành chiến thắng, bạn cần kết hợp khả năng tính toán, chiến thuật và một chút may mắn.\nHãy sử dụng những điểm di chuyển được cung cấp từ đối thủ, điều khiển các quân cờ một cách khôn ngoan và tìm kiếm cơ hội để chiếm ưu thế trên bàn đấu."
-			},
-			{
-				"text": "\n\nNhưng hãy cẩn thận! Mỗi quyết định đều có thể ảnh hưởng đến cục diện trận đấu. Đừng để đối thủ nắm bắt được chiến thuật của bạn!\nKhi bắt đầu, hãy cùng tìm hiểu những quy tắc cơ bản của trò chơi nhé!"
-			}
+			{ "text": "TUTORIAL_P0_S0" },
+			{ "text": "TUTORIAL_P0_S1" }
 		]
 	},
 	{
-		"title": "THỜI GIAN LƯỢT",
+		"title": "TUTORIAL_TITLE_1",
 		"use_board": false,
 		"segments": [
 			{
-				"text": "Mỗi lượt chơi kéo dài 40 giây!\nMột lượt chơi được chia thành hai giai đoạn:\n1. Giai đoạn di chuyển – 30 giây\nĐây là thời gian để bạn sử dụng số điểm nhận được từ đối thủ nhằm di chuyển các quân cờ trên bàn đấu.",
-				"image": "res://Assets/Tutorial/sanae_hentai/turn_tortune/player_turn.png"
+				"text": "TUTORIAL_P1_S0",
+				"image": "res://Assets/Tutorial/sanae_tent/turn_tortune/player_turn.png"
 			},
 			{
-				"text": "\n2. Giai đoạn tung xúc xắc – 10 giây\nKết quả xúc xắc sẽ quyết định số điểm mà đối thủ nhận được trong lượt tiếp theo.\nHãy nhớ: Khi bạn di chuyển, đối thủ nhận điểm. Khi bạn tung xúc xắc, bạn cấp điểm cho đối thủ!",
-				"image": "res://Assets/Tutorial/sanae_hentai/turn_tortune/example.png"
+				"text": "TUTORIAL_P1_S1",
+				"image": "res://Assets/Tutorial/sanae_tent/turn_tortune/example.png"
 			}
 		]
 	},
 	{
-		"title": "ĐIỂM DI CHUYỂN",
+		"title": "TUTORIAL_TITLE_2",
 		"use_board": false,
 		"image": "res://Assets/Images/mary_placeholder.png",
 		"segments": [
-			{
-				"text": "Xúc xắc quyết định số điểm di chuyển!\nKhi đối thủ tung xúc xắc, bạn sẽ nhận được số điểm tương ứng với kết quả mà họ đạt được. Số điểm này chính là số ô di chuyển bạn có thể dùng.\nVí dụ: Đối thủ tung được 5 điểm, bạn có 5 điểm di chuyển trong lượt."
-			}
+			{ "text": "TUTORIAL_P2_S0" }
 		]
 	},
 	{
-		"title": "QUÂN CỜ (PHẦN 1)",
+		"title": "TUTORIAL_TITLE_3",
 		"use_board": true,
 		"segments": [
-			{
-				"text": "Mỗi quân cờ sở hữu cách di chuyển riêng!\nNắm rõ khả năng của từng quân cờ là chìa khóa để xây dựng chiến thuật và chiếm ưu thế trên bàn đấu.",
-				"demo": "empty"
-			},
-			{
-				"text": "\n\nTỐT (PAWN)\nDi chuyển: Tiến thẳng 1 ô.\nĂn quân: Di chuyển chéo 1 ô để ăn quân đối phương.",
-				"demo": "pawn"
-			},
-			{
-				"text": "\n\nXE (ROOK)\nDi chuyển: Theo hàng ngang hoặc hàng dọc.\nĂn quân: Theo hàng ngang hoặc hàng dọc.",
-				"demo": "rook"
-			}
+			{ "text": "TUTORIAL_P3_S0", "demo": "empty" },
+			{ "text": "TUTORIAL_P3_S1", "demo": "pawn" },
+			{ "text": "TUTORIAL_P3_S2", "demo": "rook" }
 		]
 	},
 	{
-		"title": "QUÂN CỜ (PHẦN 2)",
+		"title": "TUTORIAL_TITLE_4",
 		"use_board": true,
 		"segments": [
-			{
-				"text": "TƯỢNG (BISHOP)\nDi chuyển: Theo đường chéo sang trái hoặc sang phải.\nĂn quân: Theo đường chéo sang trái hoặc sang phải.",
-				"demo": "bishop"
-			},
-			{
-				"text": "\n\nHẬU (QUEEN)\nDi chuyển: Theo hàng ngang, hàng dọc hoặc đường chéo.\nĂn quân: Có thể ăn quân theo tất cả các hướng trên.",
-				"demo": "queen"
-			},
-			{
-				"text": "\n\nVUA (KING)\nDi chuyển: Yêu cầu sử dụng 2 quân cờ bất kỳ trước khi được phép di chuyển Vua.\nĂn quân: Khi ăn quân đối phương, Vua được phép thay đổi hướng di chuyển.",
-				"demo": "king_unlock"
-			}
+			{ "text": "TUTORIAL_P4_S0", "demo": "bishop" },
+			{ "text": "TUTORIAL_P4_S1", "demo": "queen" },
+			{ "text": "TUTORIAL_P4_S2", "demo": "king_unlock" }
 		]
 	},
 	{
-		"title": "KHÓA HƯỚNG DI CHUYỂN",
+		"title": "TUTORIAL_TITLE_5",
 		"use_board": true,
 		"segments": [
-			{
-				"text": "Đã chọn hướng, phải giữ nguyên hướng!\nTrong mỗi lượt chơi, khi bạn di chuyển bằng một quân cờ, hướng di chuyển của quân đó sẽ bị khóa cho đến hết lượt.",
-				"demo": "lock_dir_intro"
-			},
-			{
-				"text": "\n\nVí dụ: Bạn nhận 6 điểm và dùng Xe di chuyển sang trái 1 ô.\nSau nước đi này, Xe chỉ có thể tiếp tục đi sang trái trong phần còn lại của lượt, không thể đi lên, xuống hay sang phải cho đến lượt sau.",
-				"demo": "lock_dir_rook"
-			}
+			{ "text": "TUTORIAL_P5_S0", "demo": "lock_dir_intro" },
+			{ "text": "TUTORIAL_P5_S1", "demo": "lock_dir_rook" }
 		]
 	},
 	{
-		"title": "ĐẶC QUYỀN CỦA VUA",
+		"title": "TUTORIAL_TITLE_6",
 		"use_board": true,
 		"segments": [
-			{
-				"text": "Vua là quân cờ duy nhất có thể thay đổi hướng di chuyển khi ăn quân đối phương.\nVí dụ: Vua đang di chuyển thẳng và thực hiện ăn quân đối phương, sau đó có thể đổi sang hướng chéo.",
-				"demo": "king_change_dir"
-			},
-			{
-				"text": "\n\nHãy lựa chọn hướng di chuyển cẩn thận, bởi một khi đã xác định hướng, bạn sẽ phải tuân theo nó cho đến hết lượt!",
-				"demo": "king_change_dir"
-			}
+			{ "text": "TUTORIAL_P6_S0", "demo": "king_change_dir" },
+			{ "text": "TUTORIAL_P6_S1", "demo": "king_change_dir" }
 		]
 	},
 	{
-		"title": "QUY TẮC PHẠM LỖI",
+		"title": "TUTORIAL_TITLE_7",
 		"use_board": false,
 		"segments": [
 			{
-				"text": "Đừng để thời gian trôi qua vô ích!\nTrong giai đoạn di chuyển 30 giây, nếu không thực hiện bất kỳ nước đi nào, bạn sẽ bị tính phạm lỗi.\nCẩn thận! 3 lần phạm lỗi sẽ khiến bạn thua cuộc.",
-				"image": "res://Assets/Tutorial/sanae_hentai/time_error/output/time_error/time_error.png"
+				"text": "TUTORIAL_P7_S0",
+				"image": "res://Assets/Tutorial/sanae_tent/time_error/output/time_error/time_error.png"
 			},
 			{
-				"text": "\nNếu bạn thua, coi như trận đấu kết thúc",
-				"image": "res://Assets/Tutorial/sanae_hentai/time_error/output/3error/3error.png"
+				"text": "TUTORIAL_P7_S1",
+				"image": "res://Assets/Tutorial/sanae_tent/time_error/output/3error/3error.png"
 			}
 		]
 	},
 	{
-		"title": "SẴN SÀNG",
+		"title": "TUTORIAL_TITLE_8",
 		"use_board": false,
 		"image": "res://Assets/Images/mary_placeholder.png",
 		"segments": [
-			{
-				"text": "Vậy là bạn đã nắm được những quy tắc cơ bản của trò chơi!\nChiến thắng nằm ở cách bạn sử dụng từng điểm di chuyển và xây dựng chiến thuật.\nĐấu trường đã sẵn sàng. Bạn đã sẵn sàng chưa?\nCHÚC BẠN CÓ NHỮNG TRẬN ĐẤU THẬT TUYỆT VỜI!"
-			}
+			{ "text": "TUTORIAL_P8_S0" }
 		]
 	}
 ]
@@ -183,6 +145,9 @@ func _ready() -> void:
 		
 	await get_tree().process_frame
 	start_page(0)
+	
+	prev_button.text = tr("TUTORIAL_PREV")
+	
 
 func setup_board_overlay() -> void:
 	board_overlay = Control.new()
@@ -231,7 +196,7 @@ func start_page(step_idx: int) -> void:
 	
 	var page_data: Dictionary = tutorial_steps[current_step]
 	if page_data.has("title"):
-		tutorial_title.text = page_data["title"]
+		tutorial_title.text = tr(page_data["title"])
 		
 	var use_board: bool = page_data.get("use_board", false)
 	if use_board:
@@ -325,7 +290,7 @@ func play_current_segment() -> void:
 		
 	var seg_data: Dictionary = segments[current_segment]
 	var prev_len: int = instruction_label.text.length()
-	var new_text: String = instruction_label.text + seg_data["text"]
+	var new_text: String = instruction_label.text + tr(seg_data["text"])
 	var total_len: int = new_text.length()
 	
 	if typing_tween and typing_tween.is_valid():
@@ -341,7 +306,7 @@ func play_current_segment() -> void:
 	typing_tween.finished.connect(func(): is_typing = false)
 	
 	var is_finished: bool = (current_step == tutorial_steps.size() - 1) and (current_segment == segments.size() - 1)
-	next_button.text = "Xong" if is_finished else "Tiếp →"
+	next_button.text = tr("TUTORIAL_DONE") if is_finished else tr("TUTORIAL_NEXT")
 
 	if page_data.get("use_board", false):
 		show_board_demo(seg_data.get("demo", "empty"))
